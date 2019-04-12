@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= full_title(yield(:title)) %> | 勤怠管理システム</title>
+    <title><%= full_title(yield(:title)) %></title>
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag    'application', media: 'all', 
                                'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 
                                'data-turbolinks-track': 'reload' %>
+    <%= render 'layouts/shim' %> <!-- HTML simがこの１行で済む -->                           
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'layouts/header' %> <!-- headerの内容がこの１行で収まる-->
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
