@@ -1,0 +1,101 @@
+[33mcommit d909650df36a5a310dba385ed15016e23a3d0079[m[33m ([m[1;36mHEAD -> [m[1;32madditional-functions[m[33m, [m[1;31morigin/master[m[33m, [m[1;31mheroku/master[m[33m, [m[1;32mnew-branch[m[33m, [m[1;32mmaster[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Sun Apr 21 07:10:54 2019 +0000
+
+    finish new-branch
+
+[33mcommit 72024062de933fefaa18d1eaed1a25e877a2281b[m[33m ([m[1;32mattendances-edit-page[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Sun Apr 21 05:46:19 2019 +0000
+
+    Finish Attendances edit page
+
+[33mcommit 0f130f9b39e4ced9e85ba1d2dbe0844e632ef1ec[m[33m ([m[1;32muser-attendances-show-page[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 18 11:07:04 2019 +0000
+
+    Finish Attendances Show Page
+
+[33mcommit b41c30bdf51077d7245bd42148e0b84868a0b81d[m[33m ([m[1;32mbasic-information[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Wed Apr 17 04:49:46 2019 +0000
+
+    Finish basic information
+
+[33mcommit 16eb434fc2eab9197db86bbaabe1c4d0c17ffad9[m[33m ([m[1;32mediting-users[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Tue Apr 16 11:28:53 2019 +0000
+
+    Finish user edit index destroy
+
+[33mcommit 4d74ddad8c844a5922025d85355f55ead9ac8a69[m[33m ([m[1;32mlogin-function[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Mon Apr 15 02:19:09 2019 +0000
+
+    basic login
+
+[33mcommit 1053503b68251a5082fa9537d7cc69bb0b93aa57[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Sun Apr 14 04:35:05 2019 +0000
+
+    use-SSL & Puma-Webserver in Production
+
+[33mcommit 50c767222e4cb034120d7f6824967cd691ec6e96[m[33m ([m[1;32muser-signup[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Sun Apr 14 04:17:28 2019 +0000
+
+    Finish users-signup
+
+[33mcommit d3e75df38411a2b399098f339605c79cb2871f2d[m[33m ([m[1;32mmodeling-users[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Sat Apr 13 05:35:44 2019 +0000
+
+    Make a basic User model
+
+[33mcommit 2c7a830522a76e370677531928b5bdfa4870db7c[m[33m ([m[1;32mpage-layout[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Fri Apr 12 10:11:18 2019 +0000
+
+    Finish layout
+
+[33mcommit b8172ebaea56a195eb426bfd8efdba8e6906aac9[m[33m ([m[1;32mstatic-pages[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Fri Apr 12 01:46:34 2019 +0000
+
+    Finish static page
+
+[33mcommit 41e2ffae6d077e42ecef44c632a4c6ac7816e93e[m[33m ([m[1;31morigin/static-pages[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 06:49:01 2019 +0000
+
+    Add a Static Pages controller
+
+[33mcommit e7c4205ee8177ee708453022fd61035494f5541c[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 06:34:34 2019 +0000
+
+    Add hello action
+
+[33mcommit 5ccd800950e40faa54727794bd7121fe023d937f[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 06:15:56 2019 +0000
+
+    Init repository
+
+[33mcommit de90f379ed77cbbe74bc36f019bdb018ff0900d5[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 02:51:24 2019 +0000
+
+    Update Gemfile
+
+[33mcommit 2001306273e7fedfd4b1cfb366bcd52a792fc271[m[33m ([m[1;31morigin/modify-README[m[33m, [m[1;32mmodify-README[m[33m)[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 02:47:49 2019 +0000
+
+    Update the README
+
+[33mcommit 2635eb0859dfda917a116f599a2f8d7357dff079[m
+Author: mkg-ms <ka11270105@gmail.com>
+Date:   Thu Apr 11 01:43:58 2019 +0000
+
+    Initialize repository

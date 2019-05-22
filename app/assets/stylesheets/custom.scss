@@ -78,6 +78,19 @@ p {
     }
 }
 
+.ruby {
+    text-align: right;
+    float: left;
+    }
+.rails {
+    text-align: right;
+    }
+.title {
+    font-size: 13px;
+    border-top: 1px solid #c0c0c0;
+    margin-top: 50px;
+}
+
 /* various */
 
 .debug_dump {
@@ -111,6 +124,16 @@ input, textarea, select, .uneditable-input{
     @include box_sizing;
 }
 
+.checkbox {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  span {
+    margin-left: 20px;
+    font-weight: normal;
+  }
+}
+
 #error_explanation {
     color: red;
     ul {
@@ -128,6 +151,16 @@ input, textarea, select, .uneditable-input{
 
 /* Users index*/
 
+.search {
+    width: 30%;
+    margin-left: auto;
+    margin-bottom: 30px;
+}
+
+.search p {
+    font-size: x-large;
+}
+
 .users {
     list-style: none;
     margin: 0;
@@ -144,5 +177,3 @@ input, textarea, select, .uneditable-input{
     width: 30%;
     margin: auto;
 }
-
-
