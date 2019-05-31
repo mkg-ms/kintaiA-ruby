@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-  
+
   def create
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(worked_on: Date.today)
@@ -39,7 +39,7 @@ class AttendancesController < ApplicationController
   
   private
   
-  def attendances_params
-    params.permit(attendances: [:started_at, :finished_at, :note])[:attendances]
-  end
+    def attendances_params
+      params.permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+    end
 end
