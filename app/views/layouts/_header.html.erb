@@ -12,6 +12,16 @@
           </li>
           <li>
             <% if current_user.try(:admin?) %>
+              <%= link_to "出勤社員一覧", basic_info_path(current_user{:admin}) %>
+            <% end %>
+          </li>
+          <li>
+            <% if current_user.try(:admin?) %>
+              <%= link_to "拠点情報の修正", basic_info_path(current_user{:admin}) %>
+            <% end %>
+          </li>
+          <li>
+            <% if current_user.try(:admin?) %>
               <%= link_to "基本情報の修正", basic_info_path(current_user{:admin}) %>
             <% end %>
           </li>
