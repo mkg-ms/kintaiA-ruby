@@ -7,7 +7,11 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
-      redirect_back_or user
+      if current_user.admin.present?
+        redirect_to users_path
+      else
+       redirect_back_or user
+      end
     else
       flash.now[:danger] = 'メールアドレスとパスワードの情報が一致しませんでした。'
       render 'new'
