@@ -22,8 +22,16 @@
             <th>指示者確認㊞</th>
           </tr>
           <tr>
-            <th><% @dates %></th>
-            <th></th>
+            <th><%= @day.to_s(:date) %></th>
+            <th>
+              <% if @day.wday == 0 %>
+                <font color="red"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
+              <% elsif @day.wday == 6 %>
+                <font color="blue"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
+              <% else %>
+                <%= %w{日 月 火 水 木 金 土}[@day.wday] %>
+              <% end %>
+            </th>
             <th></th>
             <th></th>
             <th></th>

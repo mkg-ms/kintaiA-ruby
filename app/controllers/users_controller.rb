@@ -70,6 +70,7 @@ class UsersController < ApplicationController
   end
   
   def edit_overtime_app
+    @day = Date.parse(params[:day])
   end
   
   def update_overtime_app

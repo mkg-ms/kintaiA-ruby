@@ -83,17 +83,15 @@
     <tbody>
       <% @dates.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_overtime_app_user_path(@user), remote: true, class: "btn btn-primary" %></td>
+          <td><%= link_to "残業申請", edit_overtime_app_user_path(@user, params: { day: day.worked_on }), remote: true, class: "btn btn-primary" %></td>
           <td><%= day.worked_on.to_s(:date) %></td>
           <td>
-            <% week_name = %w{日 月 火 水 木 金 土} %>
-            <% str = week_name[day.worked_on.wday] %>
             <% if day.worked_on.wday == 0 %>
-              <font color="red"><%= week_name[day.worked_on.wday] %></font>
+              <font color="red"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
             <% elsif day.worked_on.wday == 6 %>
-              <font color="blue"><%= week_name[day.worked_on.wday] %></font>
+              <font color="blue"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
             <% else %>
-              <%= str %>
+              <%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %>
             <% end %>
           </td>
           <td><%= day.started_at.to_s(:hour) if day.started_at.present? %></td>
@@ -118,14 +116,15 @@
             <% end %>
           </td>
           <td><%= day.note %></td>
-           <td></td>
-           <td></td>
-           <td></td>
-           <td></td>
-           <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
       <% end %>
     </tbody>
+    
     <tfoot>
       <tr>
         <td colspan="2"><%= format_basic_time(@user.basic_time).to_f * @worked_sum %></td>
@@ -137,8 +136,9 @@
           <select>
             <option></option>
             <option>上長A</option>
+            <option>上長B</option>
           </select>
-          <input type="submit" name="commit" value="申請" class="btn btn-primary" data-disable-with="申請">
+          <%= link_to "承認", edit_attendances_path(@user, @first_day), class: "btn btn-md btn-primary", :style => "width:100%;"  %>
         </td>
       </tr>
     </tfoot>
