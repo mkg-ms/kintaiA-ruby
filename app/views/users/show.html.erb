@@ -1,4 +1,4 @@
-<% provide(:title, '勤怠表示') %>
+<% provide(:title, '勤怠情報') %>
 <div>
   <div>
     <table class="table-bordered table-condensed">
@@ -17,7 +17,7 @@
           <td colspan="1">初日 <%= @first_day.to_s(:date) %></td>
         </tr>
         <tr>
-          <td colspan="2">所属:<%= @user.department.present? ? @user.department : "未設定" %></td>
+          <td colspan="2">所属:<%= @user.affiliation.present? ? @user.affiliation : "未設定" %></td>
           <td colspan="1">名前:<%= @user.name %></td>
           <td colspan="1">コード:</td>
           <td colspan="1">出勤日数:<%= @worked_sum %>日</td>
@@ -83,7 +83,7 @@
     <tbody>
       <% @dates.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_overtime_app_user_path(@user, params: { day: day.worked_on }), remote: true, class: "btn btn-primary" %></td>
+          <td><%= link_to "残業申請", edit_attendances_overtime_path(@user, day), remote: true, class: "btn btn-primary" %></td>
           <td><%= day.worked_on.to_s(:date) %></td>
           <td>
             <% if day.worked_on.wday == 0 %>
@@ -147,7 +147,7 @@
 </div>
 
 <!--残業申請モーダルウインドウ表示-->
-<div id="edit-overtime-app" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit-overtime" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
  
  <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#overtime_application">残業申請</button>-->

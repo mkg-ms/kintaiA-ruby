@@ -68,14 +68,7 @@ class UsersController < ApplicationController
       render 'edit_basic_info' 
     end
   end
-  
-  def edit_overtime_app
-    @day = Date.parse(params[:day])
-  end
-  
-  def update_overtime_app
-  end
-  
+
   private
   
     def user_params

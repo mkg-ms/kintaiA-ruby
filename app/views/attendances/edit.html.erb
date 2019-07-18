@@ -19,14 +19,12 @@
             <tr>
               <td><%= day.worked_on.to_s(:date) %></td>
               <td>
-                <% week_name = %w{日 月 火 水 木 金 土} %>
-                <% str = week_name[day.worked_on.wday] %>
                 <% if day.worked_on.wday == 0 %>
-                  <font color="red"><%= week_name[day.worked_on.wday] %></font>
+                  <font color="red"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
                 <% elsif day.worked_on.wday == 6 %>
-                  <font color="blue"><%= week_name[day.worked_on.wday] %></font>
+                  <font color="blue"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
                 <% else %>
-                  <%= str %>
+                  <%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %>
                 <% end %>
               </td>
               <td>
