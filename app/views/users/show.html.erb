@@ -19,7 +19,7 @@
         <tr>
           <td colspan="2">所属:<%= @user.affiliation.present? ? @user.affiliation : "未設定" %></td>
           <td colspan="1">名前:<%= @user.name %></td>
-          <td colspan="1">コード:</td>
+          <td colspan="1">コード:<%= @user.id %></td>
           <td colspan="1">出勤日数:<%= @worked_sum %>日</td>
           <td colspan="1">締日 <%= @last_day.to_s(:date) %></td>
         </tr>
@@ -27,23 +27,23 @@
     </table>
   </div>
   
-  <div>
+  <div class="btn-i">
     <% if current_user.superior? %>
       <%= link_to "[所属長承認申請のお知らせ]", class: "btn" %>
     <% end %>
   </div>
-  <div>
+  <div class="btn-i">
     <% if current_user.superior? %>
       <%= link_to "[勤怠変更申請のお知らせ]", class: "btn" %>
     <% end %>  
   </div>
-  <div>
+  <div class="btn-i">
     <% if current_user.superior? %>
       <%= link_to "[残業申請のお知らせ]", class: "btn" %>
     <% end %>  
   </div>
   
-  <div>
+  <div class="btn-b">
     <%= link_to "勤怠を編集", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>&emsp;
     <%= link_to "CSV出力", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>&emsp;
     <%= link_to "勤怠修正ログ(承認済)", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>
@@ -83,7 +83,7 @@
     <tbody>
       <% @dates.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_attendances_overtime_path(@user, day), remote: true, class: "btn btn-primary" %></td>
+          <td><%= link_to "残業申請", edit_attendances_overtime_path(@user, day.worked_on), remote: true, class: "btn btn-primary" %></td>
           <td><%= day.worked_on.to_s(:date) %></td>
           <td>
             <% if day.worked_on.wday == 0 %>

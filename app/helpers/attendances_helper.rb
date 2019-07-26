@@ -41,5 +41,21 @@ module AttendancesHelper
     end
     return attendances
   end
+  
+  def attendances_overtime_invalid?
+    attendances = true
+    attendances_overtime_params.each do |id,item|
+      if item[:started_at].blank? && item[:finished_at].blank?
+        next
+      elsif item[:started_at].blank? || item[:finished_at].blank?
+        attendances = false
+        break
+      elsif item[:started_at] > item[:finished_at]
+        attendances = false
+        break
+      end
+    end
+    return attendances
+  end
 
 end

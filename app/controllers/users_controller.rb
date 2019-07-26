@@ -5,11 +5,11 @@ class UsersController < ApplicationController
   
 
   def index
-    @users = User.paginate(page: params[:page]).search(params[:search])
+    @users = User.paginate(page: params[:page])
   end
   
   def show
-    @user = User.find(params[:id]) 
+    @user = User.find(params[:id])
     @first_day = first_day(params[:first_day])
     @last_day = @first_day.end_of_month
     (@first_day..@last_day).each do |day|
@@ -68,7 +68,12 @@ class UsersController < ApplicationController
       render 'edit_basic_info' 
     end
   end
-
+  
+  def working_employee
+    @user = User.find(params[:id])
+    @dates = user_attendances_month_date
+  end
+  
   private
   
     def user_params
