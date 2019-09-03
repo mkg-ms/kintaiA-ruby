@@ -71,14 +71,16 @@ class UsersController < ApplicationController
   
   def working_employee
     @user = User.find(params[:id])
-    @dates = user_attendances_month_date
+    @working_user = @user.attendances.where(started_at: params[:started_at])
   end
   
   private
   
     def user_params
-      params.require(:user).permit(:name, :email, :department, 
-                                   :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation,
+                                   :affiliation, :employee_number,
+                                   :uid, :designated_work_start_time,
+                                   :designated_work_end_time, :basic_work_time)
     end
     
     def basic_info_params
