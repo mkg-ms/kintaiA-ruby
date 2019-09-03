@@ -10,15 +10,15 @@
     </tr>
   </thead>
   <tbody>
-    <% @dates.each do |day| %>
+    <% @working_user.each do | work | %>
       <tr>
-        <td class="col-xs-6">
-          <% if day.started_at.present? && day.finised_at.nil? %>
+        <td>
+          <% if work.started_at.present? && work.finished_at.nil? %>
             <%= @user.employee_number %>
           <% end %>
         </td>
-        <td class="col-xs-6">
-          <% if day.started_at.present? && day.finised_at.nil? %>
+        <td>
+          <% if work.started_at.present? && work.finished_at.nil? %>
             <%= @user.name %>
           <% end %>
         </td>
