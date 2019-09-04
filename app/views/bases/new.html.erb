@@ -1,0 +1,21 @@
+<% provide(:title, "拠点情報追加") %>
+
+<h1>拠点情報追加</h1>
+
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3">
+    <%= form_with(model: @base, url: bases_path, method: :post, local: true) do |f| %>
+    
+      <%= f.label "拠点番号", class: "label-signup" %>
+      <%= f.number_field :base_number, class: "form-control", min:"0" %>
+      
+      <%= f.label "拠点名", class: "label-signup" %>
+      <%= f.text_field :base_name, class: "form-control" %>
+      
+      <%= f.label "勤怠種類", class: "label-signup" %>
+      <%= f.text_field :attendance_type, class: "form-control" %>
+      
+      <%= f.submit "追加", class: "btn-lg btn-primary btn-task-create" %>
+    <% end %>
+  </div>
+</div>
