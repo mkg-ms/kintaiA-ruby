@@ -71,7 +71,7 @@ class UsersController < ApplicationController
   
   def working_employee
     @user = User.find(params[:id])
-    @dates = user_attendances_month_date
+    @working_employee = Attendance.where(started_at: params[:started_at])
   end
   
   private

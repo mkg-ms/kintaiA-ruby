@@ -1,4 +1,8 @@
 class AttendancesController < ApplicationController
+  
+  def index
+    @workers = Attendance.worker
+  end
 
   def create
     @user = User.find(params[:user_id])

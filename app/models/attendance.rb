@@ -15,4 +15,11 @@ class Attendance < ApplicationRecord
       errors.add("出勤時間よりも後の時刻を登録してください")
     end
   end
+  
+  # 当時の日付を持ち、かつ出勤時間のみに値が存在する状態のユーザーを取得する。
+  scope :worker, -> {
+    where(attendances: {worked_on: Date.current, finished_at: nil}).
+    where.not(attendances: {started_at: nil})
+  }
+  
 end

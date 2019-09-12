@@ -12,13 +12,11 @@ Rails.application.routes.draw do
   
   get 'users/:id/attendances/:date/edit_overtime', to: 'attendances#edit_overtime', as: :edit_attendances_overtime
   patch 'users/:id/attendances/:date/update_overtime', to: 'attendances#update_overtime', as: :update_attendances_overtime
- 
+  get '/workers', to: 'attendances#index'
+  
   resources :bases
   
   resources :users do
-    member do
-       get 'working_employee'
-    end
     resources :attendances, only: :create
   end
 end
