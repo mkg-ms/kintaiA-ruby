@@ -4,8 +4,78 @@
 
 <%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>
 
-<ul class="users">
-  <%= render @users %>
-</ul>
+<!-- CSVインポート -->
+<%= form_tag users_path, multipart: true do %>
+  <%= file_field_tag :file, style: "width: 40%;" %>
+  <%= submit_tag "CSVをインポート", class: "btn btn-primary file", style: "width: 40%;" %>
+<% end %>
+
+<% @users.each do |user| %>
+  <table class="table">
+    <h4><%= user.name %></h4>
+    <% if current_user.admin? && !current_user?(user) %>
+      | <%= link_to "削除", user, method: :delete,
+          data: { confirm: "削除してよろしいですか？" }, class: "btn btn-md btn-primary" %><br>
+    <% end %>
+    <!--アコーディオンスイッチ-->
+    <button type="button" class="btn btn-primary btn-lg collapsed" 
+            data-toggle="collapse" data-target="#index<%= user.id %>" aria-expanded="false">
+      編集
+    </button>
+    <!--アコーディオン本体-->
+    <div id="index<%= user.id %>" class="collapse" aria-expanded="false">
+      <div class="panel panel-default" style="width:50%;">
+        <div class="panel-body">
+          <div>
+            <h3>アカウント情報更新</h3>
+            <%= form_with(model: user, url: user_path(user), local: true, method: :patch) do |f| %>
+
+              <%= f.label "名前" %>
+              <%= f.text_field :name, class: "form-control" %>
+              
+              <%= f.label "メールアドレス" %>
+              <%= f.email_field :email, class: "form-control" %>
+              
+              <%= f.label "所属" %>
+              <%= f.text_field :affiliation, class: "form-control" %>
+              
+              <%= f.label "社員番号" %>
+              <%= f.number_field :employee_number, class: 'form-control' %>
+              
+              <%= f.label "カード番号" %>
+              <%= f.text_field :uid, class: 'form-control' %>
+              
+              <%= f.label "基本勤務時間" %>
+              <%= f.time_field :basic_work_time, class: 'form-control' %>
+              
+              <%= f.label "指定勤務開始時間" %>
+              <%= f.time_field :designated_work_start_time, class: 'form-control' %>
+              
+              <%= f.label "指定勤務終了時間" %>
+              <%= f.time_field :designated_work_end_time, class: 'form-control' %>
+              
+              <%= f.label "パスワード" %>
+              <%= f.password_field :password, class: "form-control" %>
+              
+              <%= f.label "パスワード確認" %>
+              <%= f.password_field :password_confirmation, class: "form-control" %>
+              
+              <%= f.submit "更新", class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </table>
+<% end %>
 
 <%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>
+
+<script type="text/javascript">
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.parent().parent().next(':text').val(label);
+  });
+</script>
