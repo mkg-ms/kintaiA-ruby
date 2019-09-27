@@ -9,16 +9,15 @@ class UsersController < ApplicationController
   end
   
   def import
-    # fileはtmpに自動で一時保存される
-    User.import(params[:file])
-    if params[:file].blank?
-      flash[:danger] = "インポートするCSVファイルを選択してください。"
-      redirect_to users_url
-    else
+    # ファイルセットされていたら保存と結果のメッセージを取得して表示
+    if !params[:file].blank?
+      # 保存と結果のメッセージを取得して表示
       User.import(params[:file])
-      flash[:success] = "CSVファイルをインポートしました。"
-      redirect_to users_url
+      flash[:notice] = "CSVファイルをインポートしました。"
+    else
+      flash[:error] = "読み込むCSVファイルをセットしてください"
     end
+    redirect_to users_path
   end
   
   def show
@@ -35,14 +34,13 @@ class UsersController < ApplicationController
     @dates = user_attendances_month_date
     @worked_sum = @dates.where.not(started_at: nil).count
     respond_to do |format|
-      format.html do
-      end 
+      format.html
       format.csv do
-        send_data render_to_string, filename: "当月勤怠.csv", type: :csv
+        send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
   end
-
+  
   def new
     @user = User.new
   end
@@ -116,7 +114,7 @@ class UsersController < ApplicationController
   private
   
     def user_params
-      params.require(:user).permit(:id, :name, :email, :affiliation, :employee_number,
+      params.require(:user).permit(:name, :email, :affiliation, :employee_number,
                                    :uid, :basic_work_time, :designated_work_start_time,
                                    :designated_work_end_time, :password, :password_confirmation)
     end

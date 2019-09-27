@@ -5,7 +5,7 @@
 <%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>
 
 <!-- CSVインポート -->
-<%= form_tag users_path, multipart: true do %>
+<%= form_tag import_users_path, multipart: true do %>
   <%= file_field_tag :file, style: "width: 40%;" %>
   <%= submit_tag "CSVをインポート", class: "btn btn-primary file", style: "width: 40%;" %>
 <% end %>
@@ -30,34 +30,34 @@
             <h3>アカウント情報更新</h3>
             <%= form_with(model: user, url: user_path(user), local: true, method: :patch) do |f| %>
 
-              <%= f.label "名前" %>
+              <%= f.label :name %>
               <%= f.text_field :name, class: "form-control" %>
               
-              <%= f.label "メールアドレス" %>
+              <%= f.label :email %>
               <%= f.email_field :email, class: "form-control" %>
               
-              <%= f.label "所属" %>
+              <%= f.label :affiliation %>
               <%= f.text_field :affiliation, class: "form-control" %>
               
-              <%= f.label "社員番号" %>
+              <%= f.label :employee_number %>
               <%= f.number_field :employee_number, class: 'form-control' %>
               
-              <%= f.label "カード番号" %>
+              <%= f.label :uid %>
               <%= f.text_field :uid, class: 'form-control' %>
               
-              <%= f.label "基本勤務時間" %>
+              <%= f.label :basic_work_time %>
               <%= f.time_field :basic_work_time, class: 'form-control' %>
               
-              <%= f.label "指定勤務開始時間" %>
+              <%= f.label :designated_work_start_time %>
               <%= f.time_field :designated_work_start_time, class: 'form-control' %>
               
-              <%= f.label "指定勤務終了時間" %>
+              <%= f.label :designated_work_end_time %>
               <%= f.time_field :designated_work_end_time, class: 'form-control' %>
               
-              <%= f.label "パスワード" %>
+              <%= f.label :password %>
               <%= f.password_field :password, class: "form-control" %>
               
-              <%= f.label "パスワード確認" %>
+              <%= f.label :password_confirmation %>
               <%= f.password_field :password_confirmation, class: "form-control" %>
               
               <%= f.submit "更新", class: "btn btn-primary" %>

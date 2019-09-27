@@ -2,7 +2,6 @@ ja:
   activerecord:
     models:
       user: ユーザー 
-      board: 掲示板
     attributes:
         user:
           name: 名前 
@@ -17,3 +16,9 @@ ja:
           password_confirmation: パスワード確認
           basic_time: 指定勤務時間
           work_time: 基本時間
+        attendance:
+          worked_on: 日付
+          started_at: 出勤時間
+          finished_at: 退勤時間
+          note: 備考
+          user: ユーザーID

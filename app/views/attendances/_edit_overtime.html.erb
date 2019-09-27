@@ -14,15 +14,17 @@
       <div class="modal-body">
         <div class="row">
           <table class="table-bordered table-condensed table-striped">
-            <tr>
-              <th>日付</th>
-              <th>曜日</th>
-              <th>終了予定時間</th>
-              <th>翌日</th>
-              <th>業務処理内容</th>
-              <th>指示者確認㊞</th>
-            </tr>
-            <%= f.fields_for "attendances" do |attendance| %>
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>終了予定時間</th>
+                <th>翌日</th>
+                <th>業務処理内容</th>
+                <th>指示者確認㊞</th>
+              </tr>
+            </thead>
+            <tbody>
               <tr>
                 <th><%= @day.to_s(:date) %></th>
                 <th>
@@ -34,9 +36,9 @@
                     <%= %w{日 月 火 水 木 金 土}[@day.wday] %>
                   <% end %>
                 </th>
-                <th><%= attendance.time_field :expected_end_time, class: "form-control" %></th>
-                <th><%= attendance.check_box :checkbox, class: "checkbox inline" %></th>
-                <th><%= attendance.text_field :note, class: "form-control" %></th>
+                <th><%= f.time_field :expected_end_time, class: "form-control" %></th>
+                <th><%= f.check_box :checkbox, class: "checkbox inline" %></th>
+                <th><%= f.text_field :note, class: "form-control" %></th>
                 <th>
                   <select>
                     <option></option>
@@ -45,7 +47,7 @@
                   </select>
                 </th>
               </tr>
-            <% end %>
+            </tbody>
           </table>
         </div>
       </div>

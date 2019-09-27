@@ -47,15 +47,15 @@ class AttendancesController < ApplicationController
   end
   
   def update_overtime
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(worked_on: Date.today)
-    if @attendance.nil?
-      flash[:success] = "勤怠情報を更新しました。"
-      redirect_to user_path(@user, params:{first_day: params[:date]})
-    else
-      flash[:danger] = "不正な時間入力がありました、再入力してください。"
-      redirect_to edit_attendances_path(@user, params[:date])
-    end
+    # if @attendance.nil?
+    #   flash[:success] = "勤怠情報を更新しました。"
+    #   redirect_to user_path(@user, params:{first_day: params[:date]})
+    # else
+    #   flash[:danger] = "不正な時間入力がありました、再入力してください。"
+    #   redirect_to edit_attendances_path(@user, params[:date])
+    # end
   end
   
   private

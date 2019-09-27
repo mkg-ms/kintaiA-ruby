@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/workers', to: 'attendances#index'
   
   resources :bases
+  resources :products
   
   resources :users do
     collection { post :import }
