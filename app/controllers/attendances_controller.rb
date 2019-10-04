@@ -44,18 +44,21 @@ class AttendancesController < ApplicationController
   def edit_overtime
     @user = User.find(params[:id])
     @day = Date.parse(params[:date])
+    @attendance = @user.attendances.find_by(worked_on: params[:date])
   end
   
   def update_overtime
-    @user = User.find(params[:user_id])
-    @attendance = @user.attendances.find_by(worked_on: Date.today)
-    # if @attendance.nil?
-    #   flash[:success] = "勤怠情報を更新しました。"
-    #   redirect_to user_path(@user, params:{first_day: params[:date]})
-    # else
-    #   flash[:danger] = "不正な時間入力がありました、再入力してください。"
-    #   redirect_to edit_attendances_path(@user, params[:date])
-    # end
+    @user = User.find(params[:id])
+    if attendances_overtime_params.each do |id,item|
+         attendance = Attendance.find(id)
+         attendance.update_attributes(item)
+       end
+      flash[:success] = "勤怠情報を更新しました。"
+      redirect_to user_path(@user)
+    else
+      flash[:danger] = "不正な時間入力がありました、再入力してください。"
+      redirect_to edit_attendances_path(@user, params[:date])
+    end
   end
   
   private
@@ -65,6 +68,6 @@ class AttendancesController < ApplicationController
     end
     
     def attendances_overtime_params
-      params.permit(attendances: [:expected_end_time])[:attendances]
+      params.permit(attendances: [:expected_end_time, :overtime_work])[:attendances]
     end
 end

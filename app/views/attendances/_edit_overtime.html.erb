@@ -2,7 +2,7 @@
 <% provide(:button_text, '更新') %>
 
 <!--残業申請modal-->
-<%= form_with(model: @user, url: update_attendances_overtime_path, local: true, method: :patch) do |f| %>
+<%= form_with(model: @user, url: update_attendances_overtime_path(@user, day.worked_on, params: {id: @user.id}), local: true,  method: :patch) do |f| %>
   <div class="modal-dialog modal-lg modal-dialog-center">
     <div class="modal-content">
       <div class="modal-header">
@@ -26,11 +26,11 @@
             </thead>
             <tbody>
               <tr>
-                <th><%= @day.to_s(:date) %></th>
+                <th><%= l(@attendance.worked_on, format: :short) %></th>
                 <th>
-                  <% if  @day.wday == 0 %>
+                  <% if @day.wday == 0 %>
                     <font color="red"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
-                  <% elsif  @day.wday == 6 %>
+                  <% elsif @day.wday == 6 %>
                     <font color="blue"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
                   <% else %>
                     <%= %w{日 月 火 水 木 金 土}[@day.wday] %>
@@ -38,7 +38,7 @@
                 </th>
                 <th><%= f.time_field :expected_end_time, class: "form-control" %></th>
                 <th><%= f.check_box :checkbox, class: "checkbox inline" %></th>
-                <th><%= f.text_field :note, class: "form-control" %></th>
+                <th><%= f.text_field :overtime_work, class: "form-control" %></th>
                 <th>
                   <select>
                     <option></option>

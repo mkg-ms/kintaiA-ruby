@@ -83,13 +83,13 @@
     <tbody>
       <% @dates.each do |day| %>
         <tr>
-          <td><%= link_to "残業申請", edit_attendances_overtime_path(@user, day.worked_on), remote: true, class: "btn btn-primary" %></td>
+          <td><%= link_to "残業申請", edit_attendances_overtime_path(@user, day.worked_on, params: {id: @user.id}), remote: true, class: "btn btn-primary" %></td>
           <td><%= day.worked_on.to_s(:date) %></td>
           <td>
             <% if day.worked_on.wday == 0 %>
-              <font color="red"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
+              <font color="red">日</font>
             <% elsif day.worked_on.wday == 6 %>
-              <font color="blue"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
+              <font color="blue">土</font>
             <% else %>
               <%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %>
             <% end %>
@@ -116,10 +116,11 @@
             <% end %>
           </td>
           <td><%= day.note %></td>
+          
+          <td><%= day.expected_end_time.to_s(:hour) if day.expected_end_time.present? %></td>
+          <td><%= day.expected_end_time.to_s(:min) if day.expected_end_time.present? %></td>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><%= day.overtime_work %></td>
           <td></td>
         </tr>
       <% end %>
@@ -148,7 +149,3 @@
 
 <!--残業申請モーダルウインドウ表示-->
 <div id="edit-overtime" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
-
- 
- <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#overtime_application">残業申請</button>-->
-
