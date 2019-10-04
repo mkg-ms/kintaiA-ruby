@@ -42,13 +42,15 @@ class AttendancesController < ApplicationController
   end
   
   def edit_overtime
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find(params[:id])
     @day = Date.parse(params[:date])
     @attendance = @user.attendances.find_by(worked_on: params[:date])
   end
   
   def update_overtime
     @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
     if attendances_overtime_params.each do |id,item|
          attendance = Attendance.find(id)
          attendance.update_attributes(item)
@@ -64,7 +66,7 @@ class AttendancesController < ApplicationController
   private
   
     def attendances_params
-      params.permit(attendances: [:started_at, :finished_at, :note])[:attendances]
+      params.permit(attendances: [:started_at, :finished_at, :note, :expected_end_time])[:attendances]
     end
     
     def attendances_overtime_params

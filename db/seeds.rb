@@ -31,7 +31,7 @@ User.create!(name:  "上長B",
                  email: email,
                  password:              password,
                  password_confirmation: password,
-                 employee_number: "#{n+1}")
+                 employee_number: "#{3 + (n+1)}")
 end
 
 
