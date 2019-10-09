@@ -2,7 +2,7 @@
 <% provide(:button_text, '更新') %>
 
 <!--残業申請modal-->
-<%= form_with(model: @user, url: update_attendances_overtime_path(@user, day.worked_on, params: {id: @user.id}), local: true,  method: :patch) do |f| %>
+<%= form_with(model: @user, url: update_attendances_overtime_path(@user), local: true, method: :patch) do |f| %>
   <div class="modal-dialog modal-lg modal-dialog-center">
     <div class="modal-content">
       <div class="modal-header">
@@ -25,28 +25,33 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th><%= l(@attendance.worked_on, format: :short) %></th>
-                <th>
-                  <% if @day.wday == 0 %>
-                    <font color="red"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
-                  <% elsif @day.wday == 6 %>
-                    <font color="blue"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
-                  <% else %>
-                    <%= %w{日 月 火 水 木 金 土}[@day.wday] %>
-                  <% end %>
-                </th>
-                <th><%= f.time_field :expected_end_time, class: "form-control" %></th>
-                <th><%= f.check_box :checkbox, class: "checkbox inline" %></th>
-                <th><%= f.text_field :overtime_work, class: "form-control" %></th>
-                <th>
-                  <select>
-                    <option></option>
-                    <option>上長A</option>
-                    <option>上長B</option>
-                  </select>
-                </th>
-              </tr>
+              <% @dates.each do |day| %>
+                <%= fields_for "attendances[]", day do |af| %>
+                  <tr>
+                    <th><%= l(@attendance.worked_on, format: :short) %></th>
+                    <th>
+                      <% if @day.wday == 0 %>
+                        <font color="red"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
+                      <% elsif @day.wday == 6 %>
+                        <font color="blue"><%= %w{日 月 火 水 木 金 土}[@day.wday] %></font>
+                      <% else %>
+                        <%= %w{日 月 火 水 木 金 土}[@day.wday] %>
+                      <% end %>
+                    </th>
+                    <th><%= af.time_field :expected_end_time, class: "form-control" %></th>
+                    <th><%#= af.check_box :checkbox, class: "checkbox inline" %></th>
+                    <th><%= af.text_field :overtime_work, class: "form-control" %></th>
+                    <th>
+                      <select>
+                        <option></option>
+                        <option>上長A</option>
+                        <option>上長B</option>
+                      </select>
+                    </th>
+                  </tr>
+                <% end %>
+                <% break %>
+              <% end %>
             </tbody>
           </table>
         </div>
@@ -57,5 +62,3 @@
     </div>
   </div>
 <% end %>
-
-

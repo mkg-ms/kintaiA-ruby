@@ -42,18 +42,20 @@ class AttendancesController < ApplicationController
   end
   
   def edit_overtime
-    @user = User.find(params[:user_id])
+    @user = User.find(params[:id])
     @attendance = @user.attendances.find(params[:id])
     @day = Date.parse(params[:date])
     @attendance = @user.attendances.find_by(worked_on: params[:date])
+    @first_day = first_day(params[:date])
+    @last_day = @first_day.end_of_month
+    @dates = user_attendances_month_date
   end
   
   def update_overtime
     @user = User.find(params[:id])
-    @attendance = Attendance.find(params[:id])
     if attendances_overtime_params.each do |id,item|
-         attendance = Attendance.find(id)
-         attendance.update_attributes(item)
+        attendance = Attendance.find(id)
+        attendance.update_attributes!(item)
        end
       flash[:success] = "勤怠情報を更新しました。"
       redirect_to user_path(@user)
@@ -73,3 +75,4 @@ class AttendancesController < ApplicationController
       params.permit(attendances: [:expected_end_time, :overtime_work])[:attendances]
     end
 end
+

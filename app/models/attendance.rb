@@ -1,6 +1,7 @@
 class Attendance < ApplicationRecord
   belongs_to :user
   validates :worked_on, presence: true
+  validates :expected_end_time, presence: true
   validate :started_at_must_exist
   validate :finished_at_cannot_be_faster_than_started_at
 
