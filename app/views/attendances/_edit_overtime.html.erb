@@ -9,10 +9,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title text-center">【残業申請】</h4>
       </div>
       <div class="modal-body">
         <div class="row">
+          <h4 class="modal-title text-center">【残業申請】</h4>
           <table class="table-bordered table-condensed table-striped">
             <thead>
               <tr>
@@ -39,25 +39,22 @@
                       <% end %>
                     </th>
                     <th><%= af.time_field :expected_end_time, class: "form-control" %></th>
-                    <th><%#= af.check_box :checkbox, class: "checkbox inline" %></th>
+                    <th><%= af.check_box :next, class: "checkbox inline" %></th>
                     <th><%= af.text_field :overtime_work, class: "form-control" %></th>
-                    <th>
-                      <select>
-                        <option></option>
-                        <option>上長A</option>
-                        <option>上長B</option>
-                      </select>
-                    </th>
+                    <th><%= af.collection_select :superior_select, User.where(superior: true).where.not(id: @user.id), :id,:name %></th>
                   </tr>
                 <% end %>
                 <% break %>
               <% end %>
             </tbody>
           </table>
+          <div class="btn-modal-update">
+            <%= f.submit "申請", class: "btn btn-primary" %>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <%= f.submit "変更を送信する", class: "btn btn-primary" %>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
       </div>
     </div>
   </div>

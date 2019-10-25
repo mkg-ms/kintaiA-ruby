@@ -22,7 +22,6 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @attendance = @user.attendances.find_by(worked_on: Date.today)
     @first_day = first_day(params[:first_day])
     @last_day = @first_day.end_of_month
     (@first_day..@last_day).each do |day|
@@ -39,6 +38,7 @@ class UsersController < ApplicationController
         send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
+    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time:  nil).count
   end
   
   def new
@@ -57,6 +57,7 @@ class UsersController < ApplicationController
   end
   
   def edit
+    @user = User.find(params[:id])
   end
   
   def update
@@ -78,39 +79,20 @@ class UsersController < ApplicationController
     flash[:success] = "削除しました。"
     redirect_to users_url
   end
-  
-  def edit_basic_info
-    @user = User.find(params[:id])
-  end
-  
-  def update_basic_info
-    @user = User.find(params[:id])
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
-      redirect_to @user
-    else
-      render 'edit_basic_info' 
-    end
-  end
-  
-  def edit_info
-    @user = User.find(params[:id])
-  end
-  
-  def update_info
-    @user = User.find(params[:id])
-    if @user.update_attributes(basic_info_params)
-      flash[:success] = "基本情報を更新しました。"
-      redirect_to @user
-    else
-      render 'edit_basic_info' 
-    end
-  end
-  
-  def working_employee
-    @user = User.find(params[:id])
-    @working_employee = Attendance.where(started_at: params[:started_at])
-  end
+  # 未使用
+  # def edit_basic_info
+  #   @user = User.find(params[:id])
+  # end
+  # 未使用
+  # def update_basic_info
+  #   @user = User.find(params[:id])
+  #   if @user.update_attributes(basic_info_params)
+  #     flash[:success] = "基本情報を更新しました。"
+  #     redirect_to @user
+  #   else
+  #     render 'edit_basic_info' 
+  #   end
+  # end
   
   private
   

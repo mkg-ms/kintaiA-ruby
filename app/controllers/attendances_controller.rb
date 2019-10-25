@@ -43,7 +43,6 @@ class AttendancesController < ApplicationController
   
   def edit_overtime
     @user = User.find(params[:id])
-    @attendance = @user.attendances.find(params[:id])
     @day = Date.parse(params[:date])
     @attendance = @user.attendances.find_by(worked_on: params[:date])
     @first_day = first_day(params[:date])
@@ -65,6 +64,27 @@ class AttendancesController < ApplicationController
     end
   end
   
+  def edit_superior_notice
+  end
+  
+  def update_superior_notice
+  end
+  
+  def edit_attendance_notice
+  end
+  
+  def update_attendance_notice
+  end
+  
+  def edit_overtime_notice
+    @user = User.find(params[:id])
+    @day = Date.parse(params[:date])
+    @attendance = @user.attendances.find_by(worked_on: params[:date])
+  end
+  
+  def update_overtime_notice
+  end
+  
   private
   
     def attendances_params
@@ -72,7 +92,7 @@ class AttendancesController < ApplicationController
     end
     
     def attendances_overtime_params
-      params.permit(attendances: [:expected_end_time, :overtime_work])[:attendances]
+      params.permit(attendances: [:expected_end_time, :overtime_work, :superior_select])[:attendances]
     end
 end
 
