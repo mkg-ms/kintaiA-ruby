@@ -11,62 +11,64 @@
 <% end %>
 
 <% @users.each do |user| %>
-  <table class="table">
-    <h4><%= user.name %></h4>
-    <% if current_user.admin? && !current_user?(user) %>
-      | <%= link_to "削除", user, method: :delete,
-          data: { confirm: "削除してよろしいですか？" }, class: "btn btn-md btn-primary" %><br>
-    <% end %>
-    <!--アコーディオンスイッチ-->
-    <button type="button" class="btn btn-primary btn-lg collapsed" 
-            data-toggle="collapse" data-target="#index<%= user.id %>" aria-expanded="false">
-      編集
-    </button>
-    <!--アコーディオン本体-->
-    <div id="index<%= user.id %>" class="collapse" aria-expanded="false">
-      <div class="panel panel-default" style="width:50%;">
-        <div class="panel-body">
-          <div>
-            <h3>アカウント情報更新</h3>
-            <%= form_for(user) do |f| %>
-
-              <%= f.label :name %>
-              <%= f.text_field :name, class: "form-control" %>
+  <%= form_with(model: user, url: user_path(user), local: true, method: :patch) do |f| %>
+    <table class="table">
+      <h4><%= user.name %></h4>
+      <% if current_user.admin? && !current_user?(user) %>
+        | <%= link_to "削除", user, method: :delete,
+            data: { confirm: "削除してよろしいですか？" }, class: "btn btn-md btn-primary" %><br>
+      <% end %>
+      <!--アコーディオンスイッチ-->
+      <button type="button" class="btn btn-primary btn-lg collapsed" 
+              data-toggle="collapse" data-target="#index<%= user.id %>" aria-expanded="false">
+        編集
+      </button>
+      <!--アコーディオン本体-->
+      <div id="index<%= user.id %>" class="collapse" aria-expanded="false">
+        <div class="panel panel-default" style="width:50%;">
+          <div class="panel-body">
+            <div>
+              <h3>アカウント情報更新</h3>
               
-              <%= f.label :email %>
-              <%= f.email_field :email, class: "form-control" %>
+  
+                <%= f.label :name %>
+                <%= f.text_field :name, class: "form-control" %>
+                
+                <%= f.label :email %>
+                <%= f.email_field :email, class: "form-control" %>
+                
+                <%= f.label :affiliation %>
+                <%= f.text_field :affiliation, class: "form-control" %>
+                
+                <%= f.label :employee_number %>
+                <%= f.number_field :employee_number, class: 'form-control' %>
+                
+                <%= f.label :uid %>
+                <%= f.text_field :uid, class: 'form-control' %>
+                
+                <%= f.label :basic_work_time %>
+                <%= f.time_field :basic_work_time, class: 'form-control' %>
+                
+                <%= f.label :designated_work_start_time %>
+                <%= f.time_field :designated_work_start_time, class: 'form-control' %>
+                
+                <%= f.label :designated_work_end_time %>
+                <%= f.time_field :designated_work_end_time, class: 'form-control' %>
+                
+                <%= f.label :password %>
+                <%= f.password_field :password, class: "form-control" %>
+                
+                <%= f.label :password_confirmation %>
+                <%= f.password_field :password_confirmation, class: "form-control" %>
+                
+                <%= f.submit "更新", class: "btn btn-primary" %>
               
-              <%= f.label :affiliation %>
-              <%= f.text_field :affiliation, class: "form-control" %>
-              
-              <%= f.label :employee_number %>
-              <%= f.number_field :employee_number, class: 'form-control' %>
-              
-              <%= f.label :uid %>
-              <%= f.text_field :uid, class: 'form-control' %>
-              
-              <%= f.label :basic_work_time %>
-              <%= f.time_field :basic_work_time, class: 'form-control' %>
-              
-              <%= f.label :designated_work_start_time %>
-              <%= f.time_field :designated_work_start_time, class: 'form-control' %>
-              
-              <%= f.label :designated_work_end_time %>
-              <%= f.time_field :designated_work_end_time, class: 'form-control' %>
-              
-              <%= f.label :password %>
-              <%= f.password_field :password, class: "form-control" %>
-              
-              <%= f.label :password_confirmation %>
-              <%= f.password_field :password_confirmation, class: "form-control" %>
-              
-              <%= f.submit "更新", class: "btn btn-primary" %>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </table>
+    </table>
+  <% end %>
 <% end %>
 
 <%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>

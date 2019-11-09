@@ -1,7 +1,8 @@
 <% provide(:class_text, '所属長承認') %>
 <% provide(:button_text, '更新') %>
 
-<!--残業申請modal-->
+<!--所属長承認お知らせmodal-->
+<%= form_with(model: @user, url: update_superior_notice_path(@user), local: true, method: :patch) do |f| %>
 <div class="modal-dialog modal-lg modal-dialog-center">
   <div class="modal-content">
     <div class="modal-header">
@@ -31,7 +32,7 @@
           </tbody>
         </table>
         <div class="center btn-modal-update">
-          <%= link_to "承認結果を送信する", class: "btn btn-primary" %>
+          <%= f.submit "承認結果を送信する", class: "btn btn-primary" %>
         </div>
       </div>
     </div>
@@ -40,3 +41,4 @@
     </div>
   </div>
 </div>
+<% end %>

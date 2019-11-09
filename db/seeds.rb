@@ -22,7 +22,6 @@ User.create!(name:  "上長B",
              employee_number: 3
              )
              
-
 4.times do |n|
     name = Faker::Name.name
     email = "email-#{n+1}@sample.com"
@@ -31,7 +30,8 @@ User.create!(name:  "上長B",
                  email: email,
                  password:              password,
                  password_confirmation: password,
-                 employee_number: "#{3 + (n+1)}")
+                 employee_number: "#{3 + (n+1)}"
+                 )
 end
 
 

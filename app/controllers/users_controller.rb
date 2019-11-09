@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:show, :edit, :update]
+  # before_action :correct_user,   only: [:show, :edit, :update]
   before_action :admin_user,     only: [:destroy, :edit_basic_info, :update_basic_info]
   
 
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
         send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
-    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time:  nil).count
+    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil).count
   end
   
   def new
@@ -67,10 +67,10 @@ class UsersController < ApplicationController
       if params[:commit] == "更新"
         redirect_to users_url
       else
-        redirect_to @user
+        redirect_to edit_user_url
       end
     else
-      render 'edit'
+      render :edit
     end
   end
   
@@ -80,19 +80,19 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   # 未使用
-  # def edit_basic_info
-  #   @user = User.find(params[:id])
-  # end
+  def edit_basic_info
+    @user = User.find(params[:id])
+  end
   # 未使用
-  # def update_basic_info
-  #   @user = User.find(params[:id])
-  #   if @user.update_attributes(basic_info_params)
-  #     flash[:success] = "基本情報を更新しました。"
-  #     redirect_to @user
-  #   else
-  #     render 'edit_basic_info' 
-  #   end
-  # end
+  def update_basic_info
+    @user = User.find(params[:id])
+    if @user.update_attributes(basic_info_params)
+      flash[:success] = "基本情報を更新しました。"
+      redirect_to @user
+    else
+      render 'edit_basic_info' 
+    end
+  end
   
   private
   

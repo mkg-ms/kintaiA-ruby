@@ -65,24 +65,47 @@ class AttendancesController < ApplicationController
   end
   
   def edit_superior_notice
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
   end
   
   def update_superior_notice
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
   end
   
   def edit_attendance_notice
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
   end
   
   def update_attendance_notice
+    @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
   end
   
   def edit_overtime_notice
     @user = User.find(params[:id])
-    @day = Date.parse(params[:date])
-    @attendance = @user.attendances.find_by(worked_on: params[:date])
+    @users = User.overtime_applied_users(superior: current_user)
+    @attendance = Attendance.find(params[:id])
+    @attendances = Attendance.where.not(expected_end_time: nil).where(superior_select: @user.id)
   end
   
   def update_overtime_notice
+    @user = User.find(params[:id])
+    @users = User.overtime_applied_users(superior: current_user)
+    @attendance = Attendance.find(params[:id])
+    @attendances = Attendance.where.not(expected_end_time: nil).where(superior_select: @user.id)
+    if attendances_overtime_params.each do |id,item|
+        attendance = Attendance.find(id)
+        attendance.update_attributes!(item)
+       end
+      flash[:success] = "残業申請についてを回答しました。"
+      redirect_to user_path(@user)
+    else
+      flash[:danger] = "不正な時間入力がありました、再入力してください。"
+      redirect_to edit_attendances_path(@user, params[:date])
+    end
   end
   
   private
@@ -92,7 +115,7 @@ class AttendancesController < ApplicationController
     end
     
     def attendances_overtime_params
-      params.permit(attendances: [:expected_end_time, :overtime_work, :superior_select])[:attendances]
+      params.permit(attendances: [:expected_end_time, :overtime_work, :superior_select, :next, :overtime_mark, :overtime_change])[:attendances]
     end
 end
 

@@ -26,25 +26,26 @@
       </tbody>
     </table>
   </div>
-  
-  <div class="btn-i">
-    <% if current_user.superior? %>
-      <%= link_to "【所属長承認申請のお知らせ】", edit_superior_notice_path, remote: true, class: "btn" %>
-    <% end %>
-  </div>
-  <div class="btn-i">
-    <% if current_user.superior? %>
-      <%= link_to "【勤怠変更申請のお知らせ】", edit_attendance_notice_path, remote: true, class: "btn" %>
-    <% end %>  
-  </div>
-  <div class="btn-i">
-    <% if current_user.superior? && @count %>
-      <%= link_to "【残業申請のお知らせ】#{@count}件のお知らせがあります。", edit_overtime_notice_path, remote: true, :style=>"color:red;" %>
-    <% elsif current_user.superior? %>
-      <%= "【残業申請のお知らせ】" %>
-    <% end %>
-  </div>
-  
+  <% @dates.each do |day| %>
+    <div class="btn-i">
+      <% if current_user.superior? %>
+        <%= link_to "【所属長承認申請のお知らせ】", edit_superior_notice_path(@user, day.worked_on), remote: true, class: "btn" %>
+      <% end %>
+    </div>
+    <div class="btn-i">
+      <% if current_user.superior? %>
+        <%= link_to "【勤怠変更申請のお知らせ】", edit_attendance_notice_path(@user, day.worked_on), remote: true, class: "btn" %>
+      <% end %>  
+    </div>
+    <div class="btn-i">
+      <% if current_user.superior? && @count && @count != 0 %>
+        <%= link_to "【残業申請のお知らせ】#{@count}件のお知らせがあります。", edit_overtime_notice_path(@user, day.worked_on), remote: true, :style=>"color:red;" %>
+      <% elsif current_user.superior? %>
+        <%= "【残業申請のお知らせ】" %>
+      <% end %>
+    </div>
+  <% break %>
+  <% end %>
   <div class="btn-b">
     <%= link_to "勤怠を編集", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>&emsp;
     <%= link_to "CSV出力", user_path(@user, first_day: @first_day, format: :csv), class: "btn btn-primary" %>&emsp;
@@ -122,7 +123,9 @@
           <td><%= day.expected_end_time.to_s(:hour) if day.expected_end_time.present? %></td>
           <td><%= day.expected_end_time.to_s(:min) if day.expected_end_time.present? %></td>
           <td>
-            <% if day.expected_end_time.present? %>
+            <% if day.next == true %>
+              <%= format_over_time(day.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
+            <% elsif day.expected_end_time.present? %>
               <%= format_basic_time(day.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
             <% end %>
           </td>

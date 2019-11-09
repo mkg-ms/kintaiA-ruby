@@ -22,6 +22,4 @@ class Attendance < ApplicationRecord
     where.not(attendances: {started_at: nil})
   }
   
-  # 残業申請モーダルselect
-  # enum superior_select: { "上長A" => 2, "上長B" => 3}
 end

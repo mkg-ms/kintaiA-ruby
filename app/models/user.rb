@@ -26,5 +26,10 @@ class User < ApplicationRecord
   def self.updatable_attributes
     ["id", "name", "email", "affiliation"]
   end
+  
+  # 残業申請モーダルのお知らせのeach
+  def self.overtime_applied_users(superior: user)
+    joins(:attendances).where.not(attendances: {expected_end_time: nil, user_id: superior.id}).distinct
+  end
 
 end
