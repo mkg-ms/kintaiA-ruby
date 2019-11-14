@@ -10,6 +10,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      
       <% @users.each do |user| %>
         <div class="modal-body">
           <div class="row">
@@ -29,8 +30,11 @@
                 </tr>
               </thead>
               <tbody>
+                <%# if @attendance.overtime_change == false && @attendance.overtime_mark == 2 %>
                 <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
+                
                   <%= fields_for "attendances[]", attendance do |af| %>
+                  
                     <tr>
                       <td><%= l(attendance.worked_on, format: :short) %></td>
                       <td>
@@ -52,14 +56,13 @@
                         <% end %>
                       </td>
                       <td><%= attendance.overtime_work %></td>
-                      
                       <td><%= af.select(:overtime_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
-                      
                       <td><%= af.check_box :overtime_change, class: "checkbox inline" %></td>
                       <td></td>
                     </tr>
+                    <% end %>
                   <% end %>
-                <% end %>
+                <%# end %>
               </tbody>
             </table>
           </div>

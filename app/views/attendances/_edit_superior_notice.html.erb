@@ -3,42 +3,48 @@
 
 <!--所属長承認お知らせmodal-->
 <%= form_with(model: @user, url: update_superior_notice_path(@user), local: true, method: :patch) do |f| %>
-<div class="modal-dialog modal-lg modal-dialog-center">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <h4 class="modal-title text-center"><%= "【上長Ｂからの１か月分の申請勤怠】" %></h4>
-        <table class="table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th>月</th>
-              <th>指示者確認㊞</th>
-              <th>変更</th>
-              <th>勤怠を確認する</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="center btn-modal-update">
-          <%= f.submit "承認結果を送信する", class: "btn btn-primary" %>
+  <div class="modal-dialog modal-lg modal-dialog-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% @users.each do |user| %>
+      <div class="modal-body">
+        <div class="row">
+          <h4 class="modal-title text-center"><%= "【#{user.name}からの１か月分の申請勤怠】" %></h4>
+          <table class="table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>月</th>
+                <th>指示者確認㊞</th>
+                <th>変更</th>
+                <th>勤怠を確認する</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
+              <%= fields_for "attendances[]", attendance do |af| %>
+              <tr>
+                <td><%= l(attendance.worked_on, format: :short) %></td>
+                <td><%= af.select(:overtime_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
+                <td><%= af.check_box :overtime_change, class: "checkbox inline" %></td>
+                <td></td>
+              </tr>
+              <% end %>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="center btn-modal-update">
+            <%= f.submit "承認結果を送信する", class: "btn btn-primary" %>
+          </div>
         </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
       </div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-    </div>
   </div>
-</div>
 <% end %>

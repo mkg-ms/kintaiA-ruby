@@ -38,6 +38,8 @@ class UsersController < ApplicationController
         send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
+    @su_count = Attendance.where(superior_selector: @user.id).count
+    @at_count = Attendance.where(superior_selection: @user.id).count
     @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil).count
   end
   
@@ -123,4 +125,3 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user.admin?
     end
 end
-

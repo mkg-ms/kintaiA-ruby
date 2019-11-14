@@ -28,13 +28,17 @@
   </div>
   <% @dates.each do |day| %>
     <div class="btn-i">
-      <% if current_user.superior? %>
-        <%= link_to "【所属長承認申請のお知らせ】", edit_superior_notice_path(@user, day.worked_on), remote: true, class: "btn" %>
+      <% if current_user.superior? && @su_count && @su_count != 0 %>
+        <%= link_to "【所属長承認申請のお知らせ】#{@su_count}件のお知らせがあります。", edit_superior_notice_path(@user, day.worked_on), remote: true, :style=>"color:red;" %>
+      <% elsif current_user.superior? %>
+        <%= "【所属長承認申請のお知らせ】" %>
       <% end %>
     </div>
     <div class="btn-i">
-      <% if current_user.superior? %>
-        <%= link_to "【勤怠変更申請のお知らせ】", edit_attendance_notice_path(@user, day.worked_on), remote: true, class: "btn" %>
+      <% if current_user.superior? && @at_count && @at_count != 0 %>
+        <%= link_to "【勤怠変更申請のお知らせ】#{@at_count}件のお知らせがあります。", edit_attendance_notice_path(@user, day.worked_on), remote: true, :style=>"color:red;" %>
+      <% elsif current_user.superior? %>
+        <%= "【勤怠変更申請のお知らせ】" %>
       <% end %>  
     </div>
     <div class="btn-i">
@@ -46,12 +50,13 @@
     </div>
   <% break %>
   <% end %>
+  
   <div class="btn-b">
-    <%= link_to "勤怠を編集", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>&emsp;
+    <%= link_to "勤怠編集", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>&emsp;
     <%= link_to "CSV出力", user_path(@user, first_day: @first_day, format: :csv), class: "btn btn-primary" %>&emsp;
     <%= link_to "勤怠修正ログ(承認済)", edit_attendances_path(@user, @first_day), class: "btn btn-primary" %>
   </div>
-
+  
   <table class="table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -145,18 +150,15 @@
         <td colspan="7"></td>
         <td><%= working_times_sum(@total_seconds) unless @total_seconds.nil? %></td>
         <td colspan="5"></td>
+        <%= form_with(url: update_one_month_path(@user,@first_day), local: :true, method: :patch) do |f| %>
         <td>
           <label>所属長承認 未</label>
-          <select>
-            <option></option>
-            <option>上長A</option>
-            <option>上長B</option>
-          </select>
-          <%= link_to "承認", edit_attendances_path(@user, @first_day), class: "btn btn-md btn-primary", :style => "width:100%;"  %>
+          <%= f.collection_select :superior_selector, User.where(superior: true).where.not(id: @user.id), :id,:name %>
+          <%= f.submit "所属長承認申請", class: "btn btn-md btn-primary", :style => "width:100%;"  %>
         </td>
+        <% end %>
       </tr>
     </tfoot>
-    
   </table>
 </div>
 
