@@ -3,86 +3,86 @@
 
 <!--勤怠変更お知らせmodal-->
 <%= form_with(model: @user, url: update_attendance_notice_path(@user), local: true, method: :patch) do |f| %>
-<div class="modal-dialog modal-lg modal-dialog-center">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <% @users.each do |user| %>
-    <div class="modal-body">
-      <div class="row">
-        <h4 class="modal-title text-center"><%= "【上長Ｂからの勤怠変更申請】" %></h4>
-        <table class="table-bordered table-condensed">
-          <thead>
-            <tr>
-              <th rowspan="3">日付</th>
-              <th rowspan="3">曜日</th>
-              <th colspan="4">変更前</th>
-              <th colspan="4">変更後</th>
-              <th rowspan="3">備考</th>
-              <th rowspan="3">指示者確認㊞</th>
-              <th rowspan="3">変更</th>
-              <th rowspan="3">勤怠を確認する</th>
-            </tr>
-            <tr>
-              <th colspan="2">出社</th>
-              <th colspan="2">退社</th>
-              <th colspan="2">出社</th>
-              <th colspan="2">退社</th>
-            </tr>
-            <tr>
-              <th>時</th>
-              <th>分</th>
-              <th>時</th>
-              <th>分</th>
-              <th>時</th>
-              <th>分</th>
-              <th>時</th>
-              <th>分</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
-            <%= fields_for "attendances[]", attendance do |af| %>
-            <tr>
-              <td><%= l(attendance.worked_on, format: :short) %></td>
-              <td>
-                <% if attendance.worked_on.wday == 0 %>
-                  <font color="red">日</font>
-                <% elsif attendance.worked_on.wday == 6 %>
-                  <font color="blue">土</font>
-                <% else %>
-                  <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
+  <div class="modal-dialog modal-lg modal-dialog-center">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% @users.each do |user| %>
+        <div class="modal-body">
+          <div class="row">
+            <h4 class="modal-title text-center"><%= "【#{user.name}からの残業申請】" %></h4>
+            <table class="table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th rowspan="3">日付</th>
+                  <th rowspan="3">曜日</th>
+                  <th colspan="4">変更前</th>
+                  <th colspan="4">変更後</th>
+                  <th rowspan="3">備考</th>
+                  <th rowspan="3">指示者確認㊞</th>
+                  <th rowspan="3">変更</th>
+                  <th rowspan="3">勤怠を確認する</th>
+                </tr>
+                <tr>
+                  <th colspan="2">出社</th>
+                  <th colspan="2">退社</th>
+                  <th colspan="2">出社</th>
+                  <th colspan="2">退社</th>
+                </tr>
+                <tr>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                  <th>時</th>
+                  <th>分</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
+                  <%= fields_for "attendances[]", attendance do |af| %>
+                    <tr>
+                      <td><%= l(attendance.worked_on, format: :short) %></td>
+                      <td>
+                        <% if attendance.worked_on.wday == 0 %>
+                          <font color="red">日</font>
+                        <% elsif attendance.worked_on.wday == 6 %>
+                          <font color="blue">土</font>
+                        <% else %>
+                          <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
+                        <% end %>
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td><%= af.text_field :note, class: "form-control" %></td>
+                      <td><%= af.select(:attendance_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
+                      <td><%= af.check_box :attendance_change, class: "checkbox inline" %></td>
+                      <td></td>
+                    </tr>
+                  <% end %>
                 <% end %>
-              </td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td><%= attendance.overtime_work %></td>
-              <td><%= af.select(:overtime_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
-              <td><%= af.check_box :overtime_change, class: "checkbox inline" %></td>
-              <td></td>
-            </tr>
-            <% end %>
-            <% end %>
-          </tbody>
-        </table>
-        <div class="center btn-modal-update">
-          <%= f.submit "承認結果を送信する", class: "btn btn-primary" %>
+              </tbody>
+            </table>
+          </div>
         </div>
+      <% end %>
+      <div class="center btn-modal-update">
+        <%= f.submit "承認結果を送信する", class: "btn btn-primary" %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
       </div>
     </div>
-    <% end %>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-    </div>
   </div>
-</div>
 <% end %>

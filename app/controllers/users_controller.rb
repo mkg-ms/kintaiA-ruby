@@ -39,8 +39,8 @@ class UsersController < ApplicationController
       end
     end
     @su_count = Attendance.where(superior_selector: @user.id).count
-    @at_count = Attendance.where(superior_selection: @user.id).count
-    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil).count
+    @at_count = Attendance.where(superior_selection: @user.id).where.not(started_at: nil, finished_at: nil).count
+    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil).where.not(overtime_mark: 3).count
   end
   
   def new

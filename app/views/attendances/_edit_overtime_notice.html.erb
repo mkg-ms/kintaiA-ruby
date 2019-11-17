@@ -10,7 +10,6 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
       <% @users.each do |user| %>
         <div class="modal-body">
           <div class="row">
@@ -30,39 +29,37 @@
                 </tr>
               </thead>
               <tbody>
-                <%# if @attendance.overtime_change == false && @attendance.overtime_mark == 2 %>
                 <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
-                
-                  <%= fields_for "attendances[]", attendance do |af| %>
-                  
-                    <tr>
-                      <td><%= l(attendance.worked_on, format: :short) %></td>
-                      <td>
-                        <% if attendance.worked_on.wday == 0 %>
-                          <font color="red">日</font>
-                        <% elsif attendance.worked_on.wday == 6 %>
-                          <font color="blue">土</font>
-                        <% else %>
-                          <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
-                        <% end %>
-                      </td>
-                      <td><%= l(attendance.expected_end_time, format: :time) if attendance.expected_end_time.present? %></td>
-                      <td><%= format_basic_time(@user.designated_work_end_time) %></td>
-                      <td>
-                        <% if attendance.next == true %>
-                          <%= format_over_time(attendance.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
-                        <% elsif attendance.expected_end_time.present? %>
-                          <%= format_basic_time(attendance.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
-                        <% end %>
-                      </td>
-                      <td><%= attendance.overtime_work %></td>
-                      <td><%= af.select(:overtime_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
-                      <td><%= af.check_box :overtime_change, class: "checkbox inline" %></td>
-                      <td></td>
-                    </tr>
+                  <% unless attendance.overtime_change == true && attendance.overtime_mark == 3 %>
+                    <%= fields_for "attendances[]", attendance do |af| %>
+                      <tr>
+                        <td><%= l(attendance.worked_on, format: :short) %></td>
+                        <td>
+                          <% if attendance.worked_on.wday == 0 %>
+                            <font color="red">日</font>
+                          <% elsif attendance.worked_on.wday == 6 %>
+                            <font color="blue">土</font>
+                          <% else %>
+                            <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
+                          <% end %>
+                        </td>
+                        <td><%= l(attendance.expected_end_time, format: :time) if attendance.expected_end_time.present? %></td>
+                        <td><%= format_basic_time(@user.designated_work_end_time) %></td>
+                        <td>
+                          <% if attendance.next == true %>
+                            <%= format_over_time(attendance.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
+                          <% elsif attendance.expected_end_time.present? %>
+                            <%= format_basic_time(attendance.expected_end_time).to_f - format_basic_time(@user.designated_work_end_time).to_f %>
+                          <% end %>
+                        </td>
+                        <td><%= attendance.overtime_work %></td>
+                        <td><%= af.select(:overtime_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
+                        <td><%= af.check_box :overtime_change, class: "checkbox inline" %></td>
+                        <td></td>
+                      </tr>
                     <% end %>
                   <% end %>
-                <%# end %>
+                <% end %>
               </tbody>
             </table>
           </div>
