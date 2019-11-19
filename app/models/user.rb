@@ -29,12 +29,12 @@ class User < ApplicationRecord
   
   # 所属長承認申請モーダルのお知らせのeach
   def self.application_manager_approval(superior: user)
-    joins(:attendances).where.not(attendances: {superior_selector: nil, user_id: superior.id}).distinct
+    joins(:attendances).where.not(attendances: {superior_selector: nil, user_id: superior.id, superior_change: true}).distinct
   end
   
   # 勤怠変更モーダルのお知らせのeach
   def self.attendance_change(superior: user)
-    joins(:attendances).where.not(attendances: {started_at: nil, finished_at: nil, user_id: superior.id}).distinct
+    joins(:attendances).where.not(attendances: {started_at: nil, finished_at: nil, user_id: superior.id, attendance_change: true}).distinct
   end
   
   # 残業申請モーダルのお知らせのeach

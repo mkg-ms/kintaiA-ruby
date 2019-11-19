@@ -32,7 +32,7 @@ class AttendancesController < ApplicationController
       redirect_to edit_attendances_path(@user, params[:date])
     end
   end
-  # 所属長承認申請お知らせ
+  # 所属長承認申請お知らせモーダル
   def edit_superior_notice
     @user = User.find(params[:id])
     @users = User.application_manager_approval(superior: current_user)
@@ -57,6 +57,7 @@ class AttendancesController < ApplicationController
   # 勤怠変更申請
   def edit
     @user = User.find(params[:id])
+    @attendance = Attendance.find(params[:id])
     @first_day = first_day(params[:date])
     @last_day = @first_day.end_of_month
     @dates = user_attendances_month_date
@@ -79,7 +80,7 @@ class AttendancesController < ApplicationController
       redirect_to edit_attendances_path(@user, params[:date])
     end
   end
-  # 勤怠変更申請お知らせ
+  # 勤怠変更申請お知らせモーダル
   def edit_attendance_notice
     @user = User.find(params[:id])
     @users = User.attendance_change(superior: current_user)
@@ -127,7 +128,7 @@ class AttendancesController < ApplicationController
       redirect_to edit_attendances_path(@user, params[:date])
     end
   end
-  # 残業申請お知らせ
+  # 残業申請お知らせモーダル
   def edit_overtime_notice
     @user = User.find(params[:id])
     @users = User.overtime_applied_users(superior: current_user)
@@ -159,7 +160,7 @@ class AttendancesController < ApplicationController
     end
     # 勤怠変更申請
     def attendances_params
-      params.permit(attendances: [:started_at, :finished_at, :attendance_next, :note, :superior_selection])[:attendances]
+      params.permit(attendances: [:started_at, :finished_at, :started_at_2, :finished_at_2, :attendance_next, :note, :superior_selection])[:attendances]
     end
     def attendance_notice_params
       params.permit(attendances: [:started_at, :finished_at, :note, :attendance_mark, :attendance_change])[:attendances]

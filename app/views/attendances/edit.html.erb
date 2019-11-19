@@ -31,16 +31,20 @@
               </td>
               <td>
                 <% if day.worked_on > Date.today %>
-                  <%= af.time_field :started_at, :readonly => true, class: "form-control" %>
+                  <%= af.time_field :started_at_2, :readonly => true, class: "form-control" %>
+                <% elsif day.started_at.present? %>
+                  <%= af.time_field :started_at_2, value: (day.started_at.strftime("%H:%M")), class: "form-control" %>
                 <% else %>
-                  <%= af.time_field :started_at, class: "form-control" %>
+                  <%= af.time_field :started_at_2, class: "form-control" %>
                 <% end %>
               </td>
               <td>
                 <% if day.worked_on > Date.today %>
-                  <%= af.time_field :finished_at, :readonly => true, class: "form-control" %>
+                  <%= af.time_field :finished_at_2, :readonly => true, class: "form-control" %>
+                <% elsif day.finished_at.present? %>
+                  <%= af.time_field :finished_at_2, value: (day.finished_at.strftime("%H:%M")), class: "form-control" %>
                 <% else %>  
-                  <%= af.time_field :finished_at, class: "form-control" %>
+                  <%= af.time_field :finished_at_2, class: "form-control" %>
                 <% end %>
               </td>
               <td>
@@ -53,6 +57,8 @@
               <td>
                 <% if day.started_at.present? && day.finished_at.present? %>
                   <%= working_times(day.started_at, day.finished_at) %>
+                <% elsif day.started_at_2.present? && day.finished_at_2.present? %>
+                  <%= working_times(day.started_at_2, day.finished_at_2) %>
                 <% end %>
               </td>
               <td>
@@ -66,7 +72,7 @@
                 <% if day.worked_on > Date.today %>
                   <%= af.collection_select :superior_selection, User.where(superior: true).where.not(id: @user.id), :id,:name, {}, disabled: true, style: "display: none;" %>
                 <% else %>
-                  <%= af.collection_select :superior_selection, User.where(superior: true).where.not(id: @user.id), :id,:name %>
+                  <%= af.collection_select :superior_selection, User.where(superior: true).where.not(id: @user.id), :id,:name, :include_blank => true, selected: params[:id] %>
                 <% end %>
               </td>
             </tr>

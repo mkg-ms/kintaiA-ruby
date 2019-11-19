@@ -45,31 +45,33 @@
               </thead>
               <tbody>
                 <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
-                  <%= fields_for "attendances[]", attendance do |af| %>
-                    <tr>
-                      <td><%= l(attendance.worked_on, format: :short) %></td>
-                      <td>
-                        <% if attendance.worked_on.wday == 0 %>
-                          <font color="red">日</font>
-                        <% elsif attendance.worked_on.wday == 6 %>
-                          <font color="blue">土</font>
-                        <% else %>
-                          <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
-                        <% end %>
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td><%= af.text_field :note, class: "form-control" %></td>
-                      <td><%= af.select(:attendance_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
-                      <td><%= af.check_box :attendance_change, class: "checkbox inline" %></td>
-                      <td></td>
-                    </tr>
+                  <% unless attendance.attendance_change == true && attendance.attendance_mark == 3 %>
+                    <%= fields_for "attendances[]", attendance do |af| %>
+                      <tr>
+                        <td><%= l(attendance.worked_on, format: :short) %></td>
+                        <td>
+                          <% if attendance.worked_on.wday == 0 %>
+                            <font color="red">日</font>
+                          <% elsif attendance.worked_on.wday == 6 %>
+                            <font color="blue">土</font>
+                          <% else %>
+                            <%= %w{日 月 火 水 木 金 土}[attendance.worked_on.wday] %>
+                          <% end %>
+                        </td>
+                        <td><%= attendance.started_at.to_s(:hour) if attendance.started_at.present? %></td>
+                        <td><%= attendance.started_at.to_s(:min) if attendance.started_at.present? %></td>
+                        <td><%= attendance.finished_at.to_s(:hour) if attendance.finished_at.present? %></td>
+                        <td><%= attendance.finished_at.to_s(:min) if attendance.finished_at.present? %></td>
+                        <td><%= attendance.started_at_2.to_s(:hour) if attendance.started_at_2.present? %></td>
+                        <td><%= attendance.started_at_2.to_s(:min) if attendance.started_at_2.present? %></td>
+                        <td><%= attendance.finished_at_2.to_s(:hour) if attendance.finished_at_2.present? %></td>
+                        <td><%= attendance.finished_at_2.to_s(:min) if attendance.finished_at_2.present? %></td>
+                        <td><%= af.text_field :note, class: "form-control" %></td>
+                        <td><%= af.select(:attendance_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
+                        <td><%= af.check_box :attendance_change, class: "checkbox inline" %></td>
+                        <td></td>
+                      </tr>
+                    <% end %>
                   <% end %>
                 <% end %>
               </tbody>

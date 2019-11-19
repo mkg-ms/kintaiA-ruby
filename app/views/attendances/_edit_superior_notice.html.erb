@@ -25,13 +25,15 @@
               </thead>
               <tbody>
                 <% @attendances.where(user_id: user.id).order(:worked_on).each do |attendance| %>
-                  <%= fields_for "attendances[]", attendance do |af| %>
-                    <tr>
-                      <td><%= l(attendance.worked_on, format: :short) %></td>
-                      <td><%= af.select(:superior_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
-                      <td><%= af.check_box :superior_change, class: "checkbox inline" %></td>
-                      <td></td>
-                    </tr>
+                  <% unless attendance.superior_change == true && attendance.superior_mark == 3 %>
+                    <%= fields_for "attendances[]", attendance do |af| %>
+                      <tr>
+                        <td><%= l(attendance.worked_on, format: :short) %></td>
+                        <td><%= af.select(:superior_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
+                        <td><%= af.check_box :superior_change, class: "checkbox inline" %></td>
+                        <td></td>
+                      </tr>
+                    <% end %>
                   <% end %>
                 <% end %>
               </tbody>

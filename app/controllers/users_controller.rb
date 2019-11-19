@@ -38,9 +38,10 @@ class UsersController < ApplicationController
         send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
-    @su_count = Attendance.where(superior_selector: @user.id).count
-    @at_count = Attendance.where(superior_selection: @user.id).where.not(started_at: nil, finished_at: nil).count
-    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil).where.not(overtime_mark: 3).count
+    @su_count = Attendance.where(superior_selector: @user.id).where.not(superior_change: true).count
+    @at_count = Attendance.where(superior_selection: @user.id).where.not(started_at: nil, attendance_change: true).count
+    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil, overtime_change: true).count
+    @users = User.where(superior: true).where.not(id: @user.id)
   end
   
   def new
