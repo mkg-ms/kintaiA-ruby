@@ -28,10 +28,10 @@
                   <% unless attendance.superior_change == true && attendance.superior_mark == 3 %>
                     <%= fields_for "attendances[]", attendance do |af| %>
                       <tr>
-                        <td><%= l(attendance.worked_on, format: :short) %></td>
+                        <td><%= l(attendance.worked_on, format: :middle) %></td>
                         <td><%= af.select(:superior_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
                         <td><%= af.check_box :superior_change, class: "checkbox inline" %></td>
-                        <td></td>
+                        <td><%= link_to "確認", show_confirmation_user_path(@user, params:{first_day: @first_day }), class: "btn btn-primary" %></td>
                       </tr>
                     <% end %>
                   <% end %>

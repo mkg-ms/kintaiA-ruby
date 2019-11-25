@@ -36,16 +36,19 @@ class AttendancesController < ApplicationController
   def edit_superior_notice
     @user = User.find(params[:id])
     @users = User.application_manager_approval(superior: current_user)
-    @attendance = Attendance.find(params[:id])
-    @attendances = Attendance.where.not(worked_on: nil).where(superior_selection: @user.id)
+    @attendance = Attendance.find_by(worked_on: params[:date], user_id: @user.id)
+    @attendances = Attendance.where.not(worked_on: nil).where(superior_selector: @user.id)
   end
   
   def update_superior_notice
     @user = User.find(params[:id])
     @users = User.application_manager_approval(superior: current_user)
-    @attendance = Attendance.find_by(date: params[:date], user_id: @user.id)
-    @attendances = Attendance.where.not(worked_on: nil).where(superior_selection: @user.id)
-    if @attendance.update(superior_selector)
+    @attendance = Attendance.find_by(worked_on: params[:date], user_id: @user.id)
+    @attendances = Attendance.where.not(worked_on: nil).where(superior_selector: @user.id)
+    if superior_notice_params.each do |id,item|
+        attendance = Attendance.find(id)
+        attendance.update_attributes!(item)
+       end
       flash[:success] = "所属長承認申請についてを回答しました。"
       redirect_to user_path(@user)
     else
@@ -85,14 +88,14 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:id])
     @users = User.attendance_change(superior: current_user)
     @attendance = Attendance.find(params[:id])
-    @attendances = Attendance.where.not(started_at: nil)
+    @attendances = Attendance.where.not(started_at_2: nil)
   end
   
   def update_attendance_notice
     @user = User.find(params[:id])
     @users = User.attendance_change(superior: current_user)
     @attendance = Attendance.find(params[:id])
-    @attendances = Attendance.where.not(started_at: nil)
+    @attendances = Attendance.where.not(started_at_2: nil)
     if attendance_notice_params.each do |id,item|
         attendance = Attendance.find(id)
         attendance.update_attributes!(item)
@@ -153,17 +156,22 @@ class AttendancesController < ApplicationController
     end
   end
   
+  # 勤怠ログ
+  def time_log
+    
+  end
+  
   private
     # 所属長承認申請
     def superior_notice_params
-      params.permit(attendances: [:superior_mark, :superior_selector])[:attendances]
+      params.permit(attendances: [:superior_mark, :superior_change])[:attendances]
     end
     # 勤怠変更申請
     def attendances_params
       params.permit(attendances: [:started_at, :finished_at, :started_at_2, :finished_at_2, :attendance_next, :note, :superior_selection])[:attendances]
     end
     def attendance_notice_params
-      params.permit(attendances: [:started_at, :finished_at, :note, :attendance_mark, :attendance_change])[:attendances]
+      params.permit(attendances: [:started_at, :finished_at, :started_at_2, :finished_at_2, :note, :attendance_mark, :attendance_change])[:attendances]
     end
     # 残業申請
     def overtime_notice_params

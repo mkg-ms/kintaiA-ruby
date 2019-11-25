@@ -27,8 +27,11 @@ Rails.application.routes.draw do
   patch 'users/:id/attendances/:date/update_overtime_notice', to: 'attendances#update_overtime_notice', as: :update_overtime_notice
   # １ヶ月分の勤怠申請
   patch 'users/:id/attendances/:date/update_one_month', to: 'attendances#update_one_month', as: :update_one_month
+  # 勤怠ログ
+  get 'users/:id/attendances/:date/time_log', to: 'attendances#time_log', as: :time_log
   
   resources :users do
+    get :show_confirmation, on: :member
     collection { post :import }
     resources :attendances, only: :create
   end

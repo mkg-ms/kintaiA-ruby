@@ -38,10 +38,27 @@ class UsersController < ApplicationController
         send_data render_to_string, filename: "勤怠情報.csv", type: :csv
       end
     end
-    @su_count = Attendance.where(superior_selector: @user.id).where.not(superior_change: true).count
-    @at_count = Attendance.where(superior_selection: @user.id).where.not(started_at: nil, attendance_change: true).count
-    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil, overtime_change: true).count
+    @su_count = Attendance.where(superior_selector: @user.id).where.not(superior_change: true, superior_mark: 3).count
+    @at_count = Attendance.where(superior_selection: @user.id).where.not(started_at_2: nil, attendance_change: true, attendance_mark: 3).count
+    @count = Attendance.where(superior_select: @user.id).where.not(expected_end_time: nil, overtime_change: true, overtime_mark: 3).count
     @users = User.where(superior: true).where.not(id: @user.id)
+    @attendance = Attendance.find(params[:id])
+  end
+  
+  def show_confirmation
+    @user = User.find(params[:id])
+    @first_day = first_day(params[:first_day])
+    @last_day = @first_day.end_of_month
+    (@first_day..@last_day).each do |day|
+      unless @user.attendances.any? {|attendance| attendance.worked_on == day}
+        record = @user.attendances.build(worked_on: day)
+        record.save
+      end
+    end
+    @dates = user_attendances_month_date
+    @worked_sum = @dates.where.not(started_at: nil).count
+    @users = User.where(superior: true).where.not(id: @user.id)
+    @attendance = Attendance.find(params[:id])
   end
   
   def new
@@ -79,7 +96,7 @@ class UsersController < ApplicationController
   
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = "削除しました。"
+    flash[:success] = "削除しまし��。"
     redirect_to users_url
   end
   # 未使用

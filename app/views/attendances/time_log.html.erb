@@ -1,0 +1,135 @@
+<% provide(:title, "勤怠ログ") %>
+
+<div>
+  <h1>勤怠ログ</h1>
+  <div>
+    <div>
+      <button type="button" class="log_day" id="search_reset" value="リセット">リセット</button>
+      <div>
+        <p id="search_year">年:
+          <select id="year_search" class="log_search" style="width: 10%;">
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+          </select>
+        </p>
+        <p id="search_month">月:
+          <select id="month_search" class="log_search" style="width: 10%;">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>
+        </p>
+      </div>
+    </div>
+    <table class="table-bordered table-striped table-condensed">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>変更前出社時間</th>
+          <th>変更前退社時間</th>
+          <th>変更後出社時間</th>
+          <th>変更後退社時間</th>
+          <th>指示者</th>
+          <th>承認日</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    $(function(){
+        var month = $("#month_search").val();
+        var year = $("#year_search").val();
+        var id = 2
+        var default_year = 2019
+        var default_month = 11
+        var users_json = $("#user_array").val();
+        var users = JSON.parse(users_json);
+      
+        function getNowYMD(aaa){
+          var dt = new Date(aaa);
+          var y = dt.getFullYear();
+          var m = ("00" + (dt.getMonth()+1)).slice(-2);
+          var d = ("00" + dt.getDate()).slice(-2);
+          var result = y + "-" + m + "-" + d;
+          return result;
+        }
+        
+        function getNowHM(aaa){
+          var dt = new Date(aaa);
+          var H = ("00" + (dt.getHours())).slice(-2);
+          var M = ("00" + (dt.getMinutes())).slice(-2);
+          var result = H + ":" + M ;
+          return result;
+        }
+        
+        function getLogResult(){
+           // value値取得
+            var month = $("#month_search").val();
+            var year = $("#year_search").val();
+            // ajax
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: `/ajax/${id}`,
+                data: {
+                    month: month,
+                    year: year,
+                },
+            })
+                .done(function (data) {
+                   $("#tbody").empty();
+                   if(data){
+                       $.each(data, function(id, name){
+                           $("#tbody").append(`<tr>\
+                                                   <td>${ getNowYMD(name.year+"-"+ name.month+"-"+name.day)}</td>\
+                                                   <td>${ name.arrival_time? getNowHM(name.arrival_time): ""}</td>\
+                                                   <td>${ name.leaving_time? getNowHM(name.leaving_time): ""}</td>\
+                                                   <td>${ getNowHM(name.arrival_change_time)}</td>\
+                                                   <td>${ getNowHM(name.leaving_change_time)}</td>\
+                                                   <td>${ users[id] }</td>\
+                                                </tr>\
+                                               `)
+                       });
+                   }
+                });
+        }
+    
+        $("#search_reset").click(function () {
+            $("#year_search").val(default_year);
+            $("#month_search").val(default_month);
+             getLogResult();
+        });
+    
+        // ラジオボタンを選択変更したら実行
+        $("#month_search").change(function () {
+           getLogResult();
+        });
+         $("#year_search").change(function () {
+           getLogResult();
+        });
+    });
+  </script>
+</div>

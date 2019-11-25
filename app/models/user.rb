@@ -11,20 +11,17 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   validates :affiliation, length: { in: 3..50 }, allow_blank: true
   
+  # csvインポート
   def self.import(file)
     CSV.foreach(file.path, headers: true, encoding: 'Shift_JIS:UTF-8') do |row|
       user = find_by(id: row["id"]) || new
       user.attributes = row.to_hash.slice(*updatable_attributes)
-      unless user.save
-        return false
-      end
+      user.save
     end
-    return true
   end
-
-  # 更新を許可するカラムを定義
+  # csvインポート更新を許可するカラムを定義
   def self.updatable_attributes
-    ["id", "name", "email", "affiliation"]
+    ["name", "email", "affiliation", "employee_number", "uid", "basic_work_time", "designated_work_start_time", "designated_work_end_time", "superior", "admin", "password"]
   end
   
   # 所属長承認申請モーダルのお知らせのeach
@@ -34,7 +31,7 @@ class User < ApplicationRecord
   
   # 勤怠変更モーダルのお知らせのeach
   def self.attendance_change(superior: user)
-    joins(:attendances).where.not(attendances: {started_at: nil, finished_at: nil, user_id: superior.id, attendance_change: true}).distinct
+    joins(:attendances).where.not(attendances: {started_at_2: nil, finished_at_2: nil, user_id: superior.id, attendance_change: true}).distinct
   end
   
   # 残業申請モーダルのお知らせのeach
