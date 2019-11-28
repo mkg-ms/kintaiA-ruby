@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   patch 'users/:id/attendances/:date/update_one_month', to: 'attendances#update_one_month', as: :update_one_month
   # 勤怠ログ
   get 'users/:id/attendances/:date/time_log', to: 'attendances#time_log', as: :time_log
+  get 'ajax', to: 'attendances#ajax', as: :ajax
   
   resources :users do
     get :show_confirmation, on: :member

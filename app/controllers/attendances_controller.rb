@@ -158,7 +158,21 @@ class AttendancesController < ApplicationController
   
   # 勤怠ログ
   def time_log
-    
+    @logs = Attendance.where(attendance_mark: 3, attendance_change: true)
+                     .where(worked_on: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month).distinct
+  end
+  
+  def ajax
+    @logs = Attendance.where(attendance_mark: 3, attendance_change: true)
+                     .where(worked_on: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month).distinct
+    logs = render_to_string(
+        partial: 'table_time_log',
+        collection: @logs
+      )
+     render json: {
+            logs: logs,
+            success: true # クライアント(js)側へsuccessを伝えるために付加
+          }
   end
   
   private
