@@ -24,7 +24,7 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:id])
     @first_day = first_day(params[:first_day])
     @attendance = Attendance.find_by(worked_on: params[:date], user_id: @user.id)
-    if @attendance.update(superior_selector: params[:superior_selector])
+    if @attendance.update(superior_selector: params[:superior_selector], superior_mark: 2)
       flash[:success] = "所属長承認を申請しました。"
       redirect_to user_path(@user)
     else
@@ -75,6 +75,7 @@ class AttendancesController < ApplicationController
       attendances_params.each do |id,item|
         attendance = Attendance.find(id)
         attendance.update_attributes(item)
+        attendance.update_attributes!(attendance_mark: 2)
       end
       flash[:success] = "勤怠編集情報を更新しました。"
       redirect_to user_path(@user, params:{first_day: params[:date]})
@@ -123,6 +124,7 @@ class AttendancesController < ApplicationController
     if overtime_notice_params.each do |id,item|
         attendance = Attendance.find(id)
         attendance.update_attributes!(item)
+        attendance.update_attributes!(overtime_mark: 2)
        end
       flash[:success] = "残業申請情報を更新しました。"
       redirect_to user_path(@user)
@@ -163,8 +165,9 @@ class AttendancesController < ApplicationController
   end
   
   def ajax
+    date = Date.new(params[:value_year].to_i, params[:value_month].to_i)
     @logs = Attendance.where(attendance_mark: 3, attendance_change: true)
-                     .where(worked_on: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month).distinct
+                   .where(worked_on: date.beginning_of_month..date.end_of_month).distinct
     logs = render_to_string(
         partial: 'table_time_log',
         collection: @logs

@@ -9,7 +9,7 @@
 		  <p>年：
 		    <select class="log_search" id="filter-year" role="menu">
 		      <option value="2018">2018</option>
-		      <option value="2019">2019</option>
+		      <option selected value="2019">2019</option>
 		      <option value="2020">2020</option>
 		    </select>
 		  </p>
@@ -31,7 +31,7 @@
           <option value="9">9</option>
           <option value="10">10</option>
           <option value="11">11</option>
-          <option value="12">12</option>
+          <option selected value="12">12</option>
         </select>
       </p>
     </div>
@@ -55,7 +55,7 @@
           value_month: value_month
         }
         // せいこう
-      }).done(function(data, status) {
+      }).done(function(data, status, xhr) {
                 $('#table_time_log').html(data.logs);
               })
         // しっぱい
@@ -76,7 +76,7 @@
           value_month: value_month
         }
         // せいこう
-      }).done(function(data, status) {
+      }).done(function(data, status, xhr) {
                 $('#table_time_log').html(data.logs);
         })
         // しっぱい
@@ -99,7 +99,8 @@
           value_month: value_month
         }
         // せいこう
-      }).done(function(data, status) {
+      }).done(function(data, status, xhr) {
+        
                 $('#table_time_log').html(data.logs);
         })
         // しっぱい

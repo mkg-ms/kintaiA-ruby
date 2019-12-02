@@ -21,5 +21,5 @@ class Attendance < ApplicationRecord
     where(attendances: {worked_on: Date.current, finished_at: nil}).
     where.not(attendances: {started_at: nil})
   }
-  
+
 end

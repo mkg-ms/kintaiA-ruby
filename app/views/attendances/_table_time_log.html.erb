@@ -12,13 +12,14 @@
 	</thead>
 	<tbody>
     <% @logs.each do |log| %>
+    <% user = log.user %>
       <tr>
         <td><%= log.worked_on %></td><!--曜日-->
         <td><%= log.started_at.strftime("%R") if log.started_at %></td><!-- 出勤時間ー変更前 -->
         <td><%= log.finished_at.strftime("%R") if log.finished_at %></td><!-- 退社時間ー変更前  -->
         <td><%= log.started_at_2.strftime("%R") if log.started_at_2 %></td><!--出社時間ー変更後-->
         <td><%= log.finished_at_2.strftime("%R") if log.finished_at_2 %></td><!-- 退社時間ー変更後  -->
-        <td><%#= log.work_check if log %></td><!-- 指示者  -->
+        <td><%= user.name if user.name %></td><!-- 指示者  -->
         <td><%= log.updated_at.strftime("%F") if log.updated_at %></td><!-- 承認日時  -->
       </tr>
     <% end %>

@@ -74,7 +74,7 @@
         <th colspan="2">終了予定時間</th>
         <th rowspan="2">時間外勤務</th>
         <th rowspan="2">業務処理内容</th>
-        <th rowspan="2">指示者確認印</th>
+        <th rowspan="2">指示者確認㊞</th>
       </tr>
       <tr>
         <th>時</th>
@@ -103,14 +103,14 @@
             <% end %>
           </td>
           <td>
-            <% if day.started_at_2.present? && day.attendance_mark == 3 && day.attendance_change == true %>
+            <% if day.started_at_2.present? %>
               <%= day.started_at_2.to_s(:hour) %>
             <% elsif day.started_at.present? %>
               <%= day.started_at.to_s(:hour) %>
             <% end %>
           </td>
           <td>
-            <% if day.started_at_2.present? && day.attendance_mark == 3 && day.attendance_change == true %>
+            <% if day.started_at_2.present? %>
               <%= day.started_at_2.time.to_s(:min) %>
             <% elsif day.started_at.present? %>
               <%= day.started_at.to_s(:min) %>
@@ -122,14 +122,14 @@
             <% end %>
           </td>
           <td>
-            <% if day.finished_at_2.present? && day.attendance_mark == 3 && day.attendance_change == true %>
+            <% if day.finished_at_2.present? %>
               <%= day.finished_at_2.to_s(:hour) %>
             <% elsif day.finished_at.present? %>
               <%= day.finished_at.to_s(:hour) %>
             <% end %>
           </td>
           <td>
-            <% if day.finished_at_2.present? && day.attendance_mark == 3 && day.attendance_change == true %>
+            <% if day.finished_at_2.present? %>
               <%= day.finished_at_2.to_s(:min) %>
             <% elsif day.finished_at.present? %>
               <%= day.finished_at.to_s(:min) %>
@@ -141,13 +141,13 @@
             <% end %>
           </td>
           <td>
-            <% if day.started_at.present? && day.finished_at.present? %>
-              <%= working_times(day.started_at, day.finished_at) %> 
-              <% seconds = (day.finished_at - day.started_at) %>
-              <% @total_seconds = @total_seconds.to_i + seconds %>
-            <% elsif day.started_at_2.present? && day.finished_at_2.present? %>
+            <% if day.started_at_2.present? && day.finished_at_2.present? %>
               <%= working_times(day.started_at_2, day.finished_at_2) %> 
               <% seconds = (day.finished_at_2 - day.started_at_2) %>
+              <% @total_seconds = @total_seconds.to_i + seconds %>
+            <% elsif day.started_at.present? && day.finished_at.present? %>
+              <%= working_times(day.started_at, day.finished_at) %> 
+              <% seconds = (day.finished_at - day.started_at) %>
               <% @total_seconds = @total_seconds.to_i + seconds %>
             <% end %>
           </td>
@@ -166,18 +166,18 @@
           <td>
             <% @users.each do |user| %>
               <% if day.overtime_mark == 3 && day.overtime_change == true %>
-                <%= "#{user.name}から残業【承認】"%>
+                <%= "#{user.name}から残業【承認】" %><br>
               <% elsif day.overtime_mark == 4 && day.overtime_change == true %>
-                <%= "#{user.name}から残業【否認】"%>
-              <% elsif day.superior_select %>
-                <%= "#{user.name}へ残業【申請中】"%>
-              <% end %><br>
+                <%= "#{user.name}から残業【否認】" %><br>
+              <% elsif day.superior_select == user.id %>
+                <%= "#{user.name}へ残業【申請中】" %><br>
+              <% end %>
               <% if day.attendance_mark == 3 && day.attendance_change == true %>
-                <%= "#{user.name}から勤怠変更【承認】"%>
+                <%= "#{user.name}から勤怠変更【承認】" %>
               <% elsif day.attendance_mark == 4 && day.attendance_change == true %>
-                <%= "#{user.name}から勤怠変更【否認】"%>
-              <% elsif day.superior_selection %>
-                <%= "#{user.name}へ勤怠変更【申請中】"%>
+                <%= "#{user.name}から勤怠変更【否認】" %>
+              <% elsif day.superior_selection == user.id %>
+                <%= "#{user.name}へ勤怠変更【申請中】" %>
               <% end %>
             <% end %>
           </td>
@@ -199,7 +199,7 @@
                   <%= "所属長承認 #{user.name}から承認済"%>
                 <% elsif day.superior_mark == 4 && day.superior_change == true %>
                   <%= "所属長承認 #{user.name}から否認"%>
-                <% elsif day.superior_selector  %>
+                <% elsif day.superior_selector == user.id %>
                   <%= "所属長承認 未"%>
                 <% end %>
               <% end %>
