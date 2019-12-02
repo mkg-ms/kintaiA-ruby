@@ -2,7 +2,7 @@
 
 <h1>ユーザー一覧</h1>
 
-<%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>
+<%= will_paginate %>
 
 <!-- CSVインポート -->
 <%= form_tag import_users_path, multipart: true do %>
@@ -71,13 +71,13 @@
   <% end %>
 <% end %>
 
-<%= will_paginate @users, :previous_label => '前へ', :next_label => '次へ' %>
+<%= will_paginate %>
 
-<script type="text/javascript">
-  $(document).on('change', ':file', function() {
-    var input = $(this),
-    numFiles = input.get(0).files ? input.get(0).files.length : 1,
-    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.parent().parent().next(':text').val(label);
-  });
-</script>
+<!--<script type="text/javascript">-->
+<!--  $(document).on('change', ':file', function() {-->
+<!--    var input = $(this),-->
+<!--    numFiles = input.get(0).files ? input.get(0).files.length : 1,-->
+<!--    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');-->
+<!--    input.parent().parent().next(':text').val(label);-->
+<!--  });-->
+<!--</script>-->
