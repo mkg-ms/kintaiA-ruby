@@ -26,17 +26,17 @@ class User < ApplicationRecord
   
   # 所属長承認申請モーダルのお知らせのeach
   def self.application_manager_approval(superior: user)
-    joins(:attendances).where.not(attendances: {superior_selector: nil, user_id: superior.id, superior_change: true, superior_mark: 3}).distinct
+    joins(:attendances).where.not(attendances: {superior_selector: nil, user_id: superior.id, superior_mark: 3}).distinct
   end
   
   # 勤怠変更モーダルのお知らせのeach
   def self.attendance_change(superior: user)
-    joins(:attendances).where.not(attendances: {started_at_2: nil, finished_at_2: nil, user_id: superior.id, attendance_change: true, attendance_mark: 3}).distinct
+    joins(:attendances).where.not(attendances: {started_at_2: nil, finished_at_2: nil, user_id: superior.id, attendance_mark: 3}).distinct
   end
   
   # 残業申請モーダルのお知らせのeach
   def self.overtime_applied_users(superior: user)
-    joins(:attendances).where.not(attendances: {expected_end_time: nil, user_id: superior.id, overtime_change: true, overtime_mark: 3}).distinct
+    joins(:attendances).where.not(attendances: {expected_end_time: nil, user_id: superior.id, overtime_mark: 3}).distinct
   end
 
 end

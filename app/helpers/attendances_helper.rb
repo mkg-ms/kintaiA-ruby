@@ -29,12 +29,12 @@ module AttendancesHelper
   def attendances_invalid?
     attendances = true
     attendances_params.each do |id,item|
-      if item[:started_at].blank? && item[:finished_at].blank?
+      if item[:started_at_2].blank? && item[:finished_at_2].blank?
         next
-      elsif item[:started_at].blank? || item[:finished_at].blank?
+      elsif item[:started_at_2].blank? || item[:finished_at_2].blank?
         attendances = false
         break
-      elsif item[:started_at] > item[:finished_at]
+      elsif item[:started_at_2] > item[:finished_at_2]
         attendances = false
         break
       end
