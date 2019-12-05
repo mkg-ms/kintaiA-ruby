@@ -22,17 +22,26 @@ User.create!(name:  "上長B",
              employee_number: 3
              )
              
-4.times do |n|
-    name = Faker::Name.name
-    email = "email-#{n+1}@sample.com"
-    password = "password"
-    User.create!(name: name,
-                 email: email,
-                 password:              password,
-                 password_confirmation: password,
-                 employee_number: "#{3 + (n+1)}"
-                 )
-end
+User.create!(name:  "一般A",
+             email: "email1@sample.com",
+             password:             "password",
+             password_confirmation: "password",
+             employee_number: 4
+             )
+             
+User.create!(name:  "一般B",
+             email: "email2@sample.com",
+             password:             "password",
+             password_confirmation: "password",
+             employee_number: 5
+             )
+             
+User.create!(name:  "一般C",
+             email: "email3@sample.com",
+             password:             "password",
+             password_confirmation: "password",
+             employee_number: 6
+             )
 
 
 
