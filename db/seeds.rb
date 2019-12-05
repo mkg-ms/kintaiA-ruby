@@ -23,21 +23,21 @@ User.create!(name:  "上長B",
              )
              
 User.create!(name:  "一般A",
-             email: "email1@sample.com",
+             email: "sample1@sample.com",
              password:             "password",
              password_confirmation: "password",
              employee_number: 4
              )
              
 User.create!(name:  "一般B",
-             email: "email2@sample.com",
+             email: "sample2@sample.com",
              password:             "password",
              password_confirmation: "password",
              employee_number: 5
              )
              
 User.create!(name:  "一般C",
-             email: "email3@sample.com",
+             email: "sample3@sample.com",
              password:             "password",
              password_confirmation: "password",
              employee_number: 6
