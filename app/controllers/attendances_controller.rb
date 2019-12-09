@@ -68,7 +68,7 @@ class AttendancesController < ApplicationController
     @last_day = @first_day.end_of_month
     @dates = user_attendances_month_date
   end
-  
+
   def update
     @user = User.find(params[:id])
     @attendance = Attendance.find(params[:id])
@@ -195,7 +195,7 @@ class AttendancesController < ApplicationController
     end
     # 勤怠変更申請
     def attendances_params
-      params.permit(attendances: [:started_at, :finished_at, :started_at_2, :finished_at_2, :attendance_next, :note, :superior_selection])[:attendances]
+      params.permit(attendances: [:started_at_2, :finished_at_2, :attendance_next, :note, :superior_selection])[:attendances]
     end
     def attendance_notice_params
       params.permit(attendances: [:started_at, :finished_at, :started_at_2, :finished_at_2, :note, :attendance_mark, :attendance_change])[:attendances]
@@ -203,6 +203,25 @@ class AttendancesController < ApplicationController
     # 残業申請
     def overtime_notice_params
       params.permit(attendances: [:expected_end_time, :overtime_work, :superior_select, :next, :overtime_mark, :overtime_change])[:attendances]
+    end
+    
+    def attendances_invalid?
+      attendances = true
+      attendances_params.each do |id,item|
+        if item[:started_at_2].blank? && item[:finished_at_2].blank?
+          next
+        elsif item[:started_at_2].blank? || item[:finished_at_2].blank?
+          attendances = false
+          break
+        elsif item[:attendance_next] == "1"
+          item[:finished_at_2] = item[:finished_at_2]
+          next
+        elsif item[:started_at_2] > item[:finished_at_2]
+          attendances = false
+          break
+        end
+      end
+      return attendances
     end
     
 end

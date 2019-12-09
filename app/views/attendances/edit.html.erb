@@ -57,10 +57,12 @@
                 <% end %>
               </td>
               <td>
-                <% if day.started_at.present? && day.finished_at.present? %>
-                  <%= working_times(day.started_at, day.finished_at) %>
+                <% if day.started_at_2.present? && day.finished_at_2.present? && day.attendance_next == true %>
+                  <%= working_times_attendance(day.started_at_2, day.finished_at_2) %>
                 <% elsif day.started_at_2.present? && day.finished_at_2.present? %>
-                  <%= working_times(day.started_at_2, day.finished_at_2) %>
+                  <%= working_times_2(day.started_at_2, day.finished_at_2) %>
+                <% elsif day.started_at.present? && day.finished_at.present? %>
+                  <%= working_times(day.started_at, day.finished_at) %>
                 <% end %>
               </td>
               <td>

@@ -10,6 +10,14 @@ module AttendancesHelper
      )
   end
   
+  def working_times_2(started_at_2, finished_at_2)
+    format("%.2f", (((finished_at_2 - started_at_2) / 60) / 60.0))
+  end
+  
+  def working_times_attendance(started_at_2, finished_at_2)
+    format("%.2f", ((((finished_at_2 - started_at_2) / 60) / 60.0 ) + 24.0))
+  end
+  
   def working_times(started_at, finished_at)
     format("%.2f", (((finished_at - started_at) / 60) / 60.0))
   end
@@ -24,22 +32,6 @@ module AttendancesHelper
   
   def user_attendances_month_date
     @user.attendances.where('worked_on >= ? and worked_on <= ?', @first_day, @last_day).order('worked_on')
-  end
-  
-  def attendances_invalid?
-    attendances = true
-    attendances_params.each do |id,item|
-      if item[:started_at_2].blank? && item[:finished_at_2].blank?
-        next
-      elsif item[:started_at_2].blank? || item[:finished_at_2].blank?
-        attendances = false
-        break
-      elsif item[:started_at_2] > item[:finished_at_2]
-        attendances = false
-        break
-      end
-    end
-    return attendances
   end
 
 end

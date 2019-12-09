@@ -6,17 +6,11 @@ CSV.generate do |csv|
   @dates.each do |date|
     column_values = [
       date.worked_on.to_s(:date),
-      if date.started_at_2.present?
+      if date.started_at_2.present? && date.attendance_mark == 3
           date.started_at_2.strftime("%R")
       end,
-      if date.finished_at_2.present?
+      if date.finished_at_2.present? && date.attendance_mark == 3
           date.finished_at_2.strftime("%R")
-      end,
-      if date.started_at.present?
-          date.started_at.strftime("%R")
-      end,
-      if date.finished_at.present?
-          date.finished_at.strftime("%R")
       end
     ]
     csv << column_values

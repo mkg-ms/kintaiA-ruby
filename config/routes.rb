@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get '/login',    to: 'sessions#new'
   post '/login',   to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+  # 拠点情報
+  resources :bases
+  # 出勤中社員
+  get '/workers', to: 'attendances#index'
   # 基本情報更新 未使用
   get '/edit_basic_info/:id', to: 'users#edit_basic_info', as: :basic_info
   patch 'update_basic_info', to: 'users#update_basic_info'
@@ -14,10 +18,6 @@ Rails.application.routes.draw do
   # 残業申請更新
   get 'users/:id/attendances/:date/edit_overtime', to: 'attendances#edit_overtime', as: :edit_attendances_overtime
   patch 'users/:id/attendances/:date/update_overtime', to: 'attendances#update_overtime', as: :update_attendances_overtime
-  # 出勤中社員
-  get '/workers', to: 'attendances#index'
-  # 拠点情報
-  resources :bases
   # 各種お知らせ
   get 'users/:id/attendances/:date/edit_superior_notice', to: 'attendances#edit_superior_notice', as: :edit_superior_notice
   patch 'users/:id/attendances/:date/update_superior_notice', to: 'attendances#update_superior_notice', as: :update_superior_notice

@@ -141,8 +141,12 @@
             <% end %>
           </td>
           <td>
-            <% if day.started_at_2.present? && day.finished_at_2.present? %>
-              <%= working_times(day.started_at_2, day.finished_at_2) %> 
+            <% if day.started_at_2.present? && day.finished_at_2.present? && day.attendance_next == true %>
+              <%= working_times_attendance(day.started_at_2, day.finished_at_2) %> 
+              <% seconds = (day.finished_at_2 - day.started_at_2) %>
+              <% @total_seconds = @total_seconds.to_i + seconds %>
+            <% elsif day.started_at_2.present? && day.finished_at_2.present? %>
+              <%= working_times_2(day.started_at_2, day.finished_at_2) %> 
               <% seconds = (day.finished_at_2 - day.started_at_2) %>
               <% @total_seconds = @total_seconds.to_i + seconds %>
             <% elsif day.started_at.present? && day.finished_at.present? %>
@@ -200,7 +204,7 @@
                 <% elsif day.superior_mark == 4 && day.superior_change == true %>
                   <%= "所属長承認 #{user.name}から否認"%>
                 <% elsif day.superior_selector == user.id %>
-                  <%= "所属長承認 未"%>
+                  <%= "所属長承認 #{user.name}へ申請中"%>
                 <% end %>
               <% end %>
             <% end %>
