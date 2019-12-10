@@ -2,7 +2,7 @@ class Attendance < ApplicationRecord
   belongs_to :user
   validates :worked_on, presence: true
   validate :must_choice_superior, on: :update
-　
+  
 　# 勤怠編集にて指示者を確認しなければいけない。
   def must_choice_superior
     if started_at_2.present? && finished_at_2.present? && started_at_2 < finished_at_2 && superior_selection.nil?
