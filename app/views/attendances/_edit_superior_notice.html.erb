@@ -31,7 +31,7 @@
                         <td><%= l(attendance.worked_on, format: :middle) %></td>
                         <td><%= af.select(:superior_mark, {"なし" => 1, "申請中" => 2, "承認" => 3, "否認" => 4})%></td>
                         <td><%= af.check_box :superior_change, class: "checkbox inline" %></td>
-                        <td><%= link_to "確認", show_confirmation_user_path(user, first_day: attendance.worked_on), class: "btn btn-primary" %></td>
+                        <td><%= link_to "確認", show_confirmation_user_path(user, first_day: params[:date]), class: "btn btn-primary" %></td>
                       </tr>
                     <% end %>
                   <% end %>
