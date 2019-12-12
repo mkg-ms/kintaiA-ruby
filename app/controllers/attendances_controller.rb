@@ -171,14 +171,14 @@ class AttendancesController < ApplicationController
   
   # 勤怠ログ
   def time_log
-    @logs = Attendance.where(attendance_mark: 3, attendance_change: true)
-                     .where(worked_on: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month)
+    @logs = Attendance.where(attendance_mark: 3, attendance_change: true).where(user_id: current_user.id)
+                      .where(worked_on: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month)
   end
   
   def ajax
     date = Date.new(params[:value_year].to_i, params[:value_month].to_i)
-    @logs = Attendance.where(attendance_mark: 3, attendance_change: true)
-                   .where(worked_on: date.beginning_of_month..date.end_of_month)
+    @logs = Attendance.where(attendance_mark: 3, attendance_change: true).where(user_id: current_user.id)
+                      .where(worked_on: date.beginning_of_month..date.end_of_month)
     logs = render_to_string(
         partial: 'table_time_log'
       )

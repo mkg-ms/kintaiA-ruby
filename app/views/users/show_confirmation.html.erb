@@ -143,18 +143,18 @@
           <td><%= day.overtime_work %></td>
           <td>
             <% @users.each do |user| %>
-              <% if day.overtime_mark == 3 && day.overtime_change == true %>
+              <% if day.overtime_mark == 3 && day.overtime_change == true && day.superior_select == user.id %>
                 <%= "#{user.name}から残業【承認】"%>
-              <% elsif day.overtime_mark == 4 && day.overtime_change == true %>
+              <% elsif day.overtime_mark == 4 && day.overtime_change == true && day.superior_select == user.id %>
                 <%= "#{user.name}から残業【否認】"%>
-              <% elsif day.superior_select %>
+              <% elsif day.superior_select == user.id %>
                 <%= "#{user.name}へ残業【申請中】"%>
               <% end %><br>
-              <% if day.attendance_mark == 3 && day.attendance_change == true %>
+              <% if day.attendance_mark == 3 && day.attendance_change == true && day.superior_selection == user.id %>
                 <%= "#{user.name}から勤怠変更【承認】"%>
-              <% elsif day.attendance_mark == 4 && day.attendance_change == true %>
+              <% elsif day.attendance_mark == 4 && day.attendance_change == true && && day.superior_selection == user.id %>
                 <%= "#{user.name}から勤怠変更【否認】"%>
-              <% elsif day.superior_selection %>
+              <% elsif day.superior_selection == user.id %>
                 <%= "#{user.name}へ勤怠変更【申請中】"%>
               <% end %>
             <% end %>
@@ -172,11 +172,11 @@
         <td>
           <% @dates.each do |day| %>
             <% @users.each do |user| %>
-              <% if day.superior_mark == 3 && day.superior_change == true %>
+              <% if day.superior_mark == 3 && day.superior_change == true && day.superior_selector == user.id %>
                 <%= "所属長承認 #{user.name}から承認済"%>
-              <% elsif day.superior_mark == 4 && day.superior_change == true %>
+              <% elsif day.superior_mark == 4 && day.superior_change == true && day.superior_selector == user.id %>
                 <%= "所属長承認 #{user.name}から否認"%>
-              <% elsif day.superior_selector  %>
+              <% elsif day.superior_selector == user.id %>
                 <%= "所属長承認 未"%>
               <% end %>
             <% end %>
