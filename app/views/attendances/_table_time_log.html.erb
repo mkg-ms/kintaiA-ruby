@@ -20,8 +20,6 @@
         <td><%= log.started_at_2.strftime("%R") if log.started_at_2 %></td><!--出社時間ー変更後-->
         <td><%= log.finished_at_2.strftime("%R") if log.finished_at_2 %></td><!--退社時間ー変更後-->
         <td>
-          <%# if user.superior == true && user.id == current_user.id %>
-            <%#= user.name %>
           <% if log.superior_selection == 2 %>
             <%= "上長A" %>
           <% elsif log.superior_selection == 3 %>

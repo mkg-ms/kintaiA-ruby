@@ -144,12 +144,12 @@
           <td>
             <% @users.each do |user| %>
               <% if day.overtime_mark == 3 && day.overtime_change == true && day.superior_select == user.id %>
-                <%= "#{user.name}から残業【承認】"%>
+                <%= "#{user.name}から残業【承認】"%><br>
               <% elsif day.overtime_mark == 4 && day.overtime_change == true && day.superior_select == user.id %>
-                <%= "#{user.name}から残業【否認】"%>
+                <%= "#{user.name}から残業【否認】"%><br>
               <% elsif day.superior_select == user.id %>
-                <%= "#{user.name}へ残業【申請中】"%>
-              <% end %><br>
+                <%= "#{user.name}へ残業【申請中】"%><br>
+              <% end %>
               <% if day.attendance_mark == 3 && day.attendance_change == true && day.superior_selection == user.id %>
                 <%= "#{user.name}から勤怠変更【承認】"%>
               <% elsif day.attendance_mark == 4 && day.attendance_change == true && && day.superior_selection == user.id %>
