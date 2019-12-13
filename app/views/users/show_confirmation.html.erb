@@ -152,7 +152,7 @@
               <% end %>
               <% if day.attendance_mark == 3 && day.attendance_change == true && day.superior_selection == user.id %>
                 <%= "#{user.name}から勤怠変更【承認】"%>
-              <% elsif day.attendance_mark == 4 && day.attendance_change == true && && day.superior_selection == user.id %>
+              <% elsif day.attendance_mark == 4 && day.attendance_change == true && day.superior_selection == user.id %>
                 <%= "#{user.name}から勤怠変更【否認】"%>
               <% elsif day.superior_selection == user.id %>
                 <%= "#{user.name}へ勤怠変更【申請中】"%>
