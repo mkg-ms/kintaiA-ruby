@@ -4,12 +4,12 @@ class ApplicationController < ActionController::Base
   include AttendancesHelper
   
   def correct_user
-    redirect_to(root_url) if current_user?(@user) || current_user.admin?
+    @user = User.find_by(id: params[:id])
+    redirect_to(root_url) unless current_user?(@user)
   end
   
-  def correct_user_2
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless @user == current_user
+  def correct_user_or_admin_user
+    redirect_to(root_url) if current_user.admin?
   end
   
   def admin_user
